@@ -29,7 +29,9 @@ Page({
     },
     tagInput: '',
     techPointInput: '',
-    statusOptions: ['未开始', '练习中', '可录制', '已完成']
+    statusOptions: ['未开始', '练习中', '可录制', '已完成'],
+    difficultyOptions: [1, 2, 3, 4, 5],
+    statusIndex: 0
   },
 
   onLoad(options) {
