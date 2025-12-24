@@ -5,8 +5,11 @@ import { formatDate, showToast, showModal } from '../../../utils/util.js'
 Page({
   data: {
     posts: [],
-    readonly: false,  // 只读模式（访客模式）
-    isOwner: false   // 是否是主人
+    practicingPosts: [],  // 练习中
+    showPosts: [],        // 小演出
+    plannedPosts: [],     // 计划中
+    readonly: false,      // 只读模式（访客模式）
+    isOwner: false        // 是否是主人
   },
 
   async onLoad(options) {
@@ -26,12 +29,41 @@ Page({
 
   async loadPosts() {
     const posts = await getPosts()
-    // 按创建时间倒序排列
-    const sortedPosts = posts.sort((a, b) => 
-      new Date(b.created_at) - new Date(a.created_at)
-    )
+    
+    // 分类动态
+    const now = new Date()
+    const practicingPosts = []  // 练习中
+    const showPosts = []        // 小演出
+    const plannedPosts = []     // 计划中
+    
+    posts.forEach(post => {
+      const postDate = post.date ? new Date(post.date) : null
+      const isFuture = postDate && postDate > now
+      
+      // 根据类型和日期分类
+      if (post.type === 'show') {
+        // 演出信息 -> 小演出
+        showPosts.push(post)
+      } else if (isFuture) {
+        // 未来日期的 -> 计划中
+        plannedPosts.push(post)
+      } else {
+        // 歌曲相关（song_coming, song_released）且不是未来 -> 练习中
+        practicingPosts.push(post)
+      }
+    })
+    
+    // 每个分类按时间倒序排列
+    const sortByDate = (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    practicingPosts.sort(sortByDate)
+    showPosts.sort(sortByDate)
+    plannedPosts.sort(sortByDate)
+    
     this.setData({
-      posts: sortedPosts
+      posts: posts,  // 保留全部用于其他功能
+      practicingPosts: practicingPosts,
+      showPosts: showPosts,
+      plannedPosts: plannedPosts
     })
   },
 
