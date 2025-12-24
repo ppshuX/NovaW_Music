@@ -17,7 +17,10 @@
         <view class="stat-label">次练习</view>
       </view>
     </view>
-    <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
+    <view class="action-buttons-row">
+      <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
+      <button class="btn btn-secondary" bindtap="viewPracticeLogs">查看记录</button>
+    </view>
   </view>
 
   <!-- 本周进度 -->

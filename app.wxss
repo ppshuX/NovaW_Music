@@ -43,12 +43,18 @@ page {
 
 /* 输入框样式 */
 .input {
+  width: 100%;
   background-color: #16213e;
-  border: 1px solid #0f3460;
-  border-radius: 10rpx;
-  padding: 20rpx;
+  border: 2rpx solid #0f3460;
+  border-radius: 12rpx;
+  padding: 24rpx 20rpx;
   color: #eaeaea;
   font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: #533483;
 }
 
 .input::placeholder {

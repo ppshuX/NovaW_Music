@@ -154,3 +154,13 @@
   margin-bottom: 40rpx;
 }
 
+.action-buttons-row {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.action-buttons-row .btn {
+  flex: 1;
+}
+

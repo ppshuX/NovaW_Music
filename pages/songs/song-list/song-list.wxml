@@ -2,12 +2,17 @@
 <view class="container">
   <!-- 搜索栏 -->
   <view class="search-bar">
-    <input 
-      class="search-input" 
-      placeholder="搜索歌曲、艺术家或标签..."
-      value="{{searchKeyword}}"
-      bindinput="onSearchInput"
-    />
+    <view class="search-wrapper">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索歌曲、艺术家或标签..."
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        confirm-type="search"
+      />
+      <text class="search-clear" wx:if="{{searchKeyword}}" bindtap="clearSearch">×</text>
+    </view>
   </view>
 
   <!-- 筛选标签 -->

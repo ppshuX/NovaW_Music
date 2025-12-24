@@ -113,6 +113,13 @@ Page({
     })
   },
 
+  // 添加新记录
+  addNewLog() {
+    wx.navigateTo({
+      url: '/pages/practice/practice-log/practice-log'
+    })
+  },
+
   // 保存练习记录
   save() {
     const { selectedSongId, formData } = this.data

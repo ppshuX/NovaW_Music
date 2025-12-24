@@ -23,20 +23,36 @@
   width: 100%;
   min-height: 200rpx;
   background-color: #16213e;
-  border: 1px solid #0f3460;
-  border-radius: 10rpx;
+  border: 2rpx solid #0f3460;
+  border-radius: 12rpx;
   padding: 20rpx;
   color: #eaeaea;
   font-size: 28rpx;
+  box-sizing: border-box;
+  line-height: 1.6;
 }
 
-.picker {
-  padding: 20rpx;
+.picker-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 20rpx;
   background-color: #16213e;
-  border: 1px solid #0f3460;
-  border-radius: 10rpx;
-  color: #eaeaea;
+  border: 2rpx solid #0f3460;
+  border-radius: 12rpx;
+  min-height: 44rpx;
+}
+
+.picker-text {
   font-size: 28rpx;
+  color: #eaeaea;
+  flex: 1;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #8b8b8b;
+  margin-left: 15rpx;
 }
 
 .tag-input-group {
@@ -108,5 +124,21 @@
 
 .action-buttons .btn {
   width: 100%;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.char-count {
+  position: absolute;
+  bottom: 10rpx;
+  right: 15rpx;
+  font-size: 24rpx;
+  color: #8b8b8b;
 }
 

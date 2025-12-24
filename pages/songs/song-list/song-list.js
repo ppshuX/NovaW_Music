@@ -75,8 +75,18 @@ Page({
 
   // 搜索输入
   onSearchInput(e) {
+    const keyword = e.detail.value
     this.setData({
-      searchKeyword: e.detail.value
+      searchKeyword: keyword
+    })
+    // 实时搜索
+    this.filterSongs()
+  },
+
+  // 清除搜索
+  clearSearch() {
+    this.setData({
+      searchKeyword: ''
     })
     this.filterSongs()
   },

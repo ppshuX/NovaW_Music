@@ -3,43 +3,55 @@
   <view class="card">
     <view class="form-item">
       <view class="form-label">歌曲名 *</view>
-      <input 
-        class="input" 
-        placeholder="请输入歌曲名"
-        value="{{formData.title}}"
-        bindinput="onTitleInput"
-      />
+      <view class="input-wrapper">
+        <input 
+          class="input" 
+          placeholder="请输入歌曲名"
+          value="{{formData.title}}"
+          bindinput="onTitleInput"
+          maxlength="50"
+        />
+      </view>
     </view>
 
     <view class="form-item">
       <view class="form-label">艺术家 *</view>
-      <input 
-        class="input" 
-        placeholder="请输入艺术家"
-        value="{{formData.artist}}"
-        bindinput="onArtistInput"
-      />
+      <view class="input-wrapper">
+        <input 
+          class="input" 
+          placeholder="请输入艺术家"
+          value="{{formData.artist}}"
+          bindinput="onArtistInput"
+          maxlength="50"
+        />
+      </view>
     </view>
 
     <view class="form-item">
       <view class="form-label">调性</view>
-      <input 
-        class="input" 
-        placeholder="如：C、G、Am等"
-        value="{{formData.key}}"
-        bindinput="onKeyInput"
-      />
+      <view class="input-wrapper">
+        <input 
+          class="input" 
+          placeholder="如：C、G、Am等"
+          value="{{formData.key}}"
+          bindinput="onKeyInput"
+          maxlength="10"
+        />
+      </view>
     </view>
 
     <view class="form-item">
       <view class="form-label">变调夹（品）</view>
-      <input 
-        class="input" 
-        type="number"
-        placeholder="0"
-        value="{{formData.capo}}"
-        bindinput="onCapoInput"
-      />
+      <view class="input-wrapper">
+        <input 
+          class="input" 
+          type="digit"
+          placeholder="0"
+          value="{{formData.capo}}"
+          bindinput="onCapoInput"
+          maxlength="2"
+        />
+      </view>
     </view>
   </view>
 
@@ -49,10 +61,13 @@
       <picker 
         mode="selector" 
         range="{{statusOptions}}"
-        value="{{statusOptions.indexOf(formData.status)}}"
+        value="{{statusIndex}}"
         bindchange="onStatusChange"
       >
-        <view class="picker">{{formData.status}}</view>
+        <view class="picker-wrapper">
+          <text class="picker-text">{{formData.status}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
 
@@ -64,7 +79,10 @@
         value="{{formData.proficiency - 1}}"
         bindchange="onProficiencyChange"
       >
-        <view class="picker">{{formData.proficiency}}星</view>
+        <view class="picker-wrapper">
+          <text class="picker-text">{{formData.proficiency}}星</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
 
@@ -72,11 +90,14 @@
       <view class="form-label">难度</view>
       <picker 
         mode="selector" 
-        range="{{[1,2,3,4,5]}}"
+        range="{{difficultyOptions}}"
         value="{{formData.difficulty - 1}}"
         bindchange="onDifficultyChange"
       >
-        <view class="picker">{{formData.difficulty}}/5</view>
+        <view class="picker-wrapper">
+          <text class="picker-text">{{formData.difficulty}}/5</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
   </view>
@@ -179,7 +200,10 @@
         value="{{formData.expected_release_date}}"
         bindchange="onReleaseDateChange"
       >
-        <view class="picker">{{formData.expected_release_date || '选择日期'}}</view>
+        <view class="picker-wrapper">
+          <text class="picker-text">{{formData.expected_release_date || '选择日期'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
   </view>
@@ -187,13 +211,18 @@
   <view class="card">
     <view class="form-item">
       <view class="form-label">备注</view>
-      <textarea 
-        class="textarea" 
-        placeholder="添加备注..."
-        value="{{formData.notes}}"
-        bindinput="onNotesInput"
-        maxlength="500"
-      />
+      <view class="textarea-wrapper">
+        <textarea 
+          class="textarea" 
+          placeholder="添加备注..."
+          value="{{formData.notes}}"
+          bindinput="onNotesInput"
+          maxlength="500"
+          auto-height
+          show-confirm-bar="{{false}}"
+        />
+        <view class="char-count">{{formData.notes.length}}/500</view>
+      </view>
     </view>
   </view>
 

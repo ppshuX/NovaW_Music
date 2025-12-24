@@ -94,6 +94,13 @@ Page({
     wx.navigateTo({
       url: '/pages/settings/data-import/data-import'
     })
+  },
+
+  // 查看练习记录
+  viewPracticeLogs() {
+    wx.navigateTo({
+      url: '/pages/practice/practice-log/practice-log?viewMode=all'
+    })
   }
 })
 

@@ -46,7 +46,9 @@ Page({
   loadSong(songId) {
     const song = getSongById(songId)
     if (song) {
+      const statusIndex = this.data.statusOptions.indexOf(song.status || '未开始')
       this.setData({
+        statusIndex: statusIndex >= 0 ? statusIndex : 0,
         formData: {
           title: song.title || '',
           artist: song.artist || '',
@@ -110,8 +112,10 @@ Page({
 
   // 状态选择
   onStatusChange(e) {
+    const index = parseInt(e.detail.value)
     this.setData({
-      'formData.status': this.data.statusOptions[e.detail.value]
+      'formData.status': this.data.statusOptions[index],
+      statusIndex: index
     })
   },
 
