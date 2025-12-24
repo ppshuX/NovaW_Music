@@ -54,10 +54,11 @@ Page({
     })
   },
 
-  // 编辑歌曲
+  // 编辑歌曲（跳转到编辑页面）
   editSong() {
+    const songId = this.data.song.song_id || this.data.song._id
     wx.navigateTo({
-      url: `/pages/songs/song-edit/song-edit?id=${this.data.song.song_id}`
+      url: `/pages/songs/song-edit/song-edit?id=${songId}`
     })
   },
 
@@ -68,7 +69,7 @@ Page({
     })
   },
 
-  // 切换段落掌握状态
+  // 切换段落掌握状态（实时保存）
   async toggleSection(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
@@ -79,11 +80,26 @@ Page({
     const sections = { ...song.sections }
     sections[section] = !sections[section]
     
-    await updateSong(song.song_id, { sections })
-    await this.loadSongDetail(song.song_id)
+    // 计算新进度
+    const { calculateProgress } = require('../../../utils/unified-storage.js')
+    const newSong = { ...song, sections }
+    const progress = calculateProgress(newSong)
+    
+    // 实时保存
+    try {
+      await updateSong(song.song_id || song._id, { sections, progress_percentage: progress })
+      // 更新本地数据，无需重新加载
+      this.setData({
+        'song.sections': sections,
+        'song.progress_percentage': progress
+      })
+      showToast('已保存', 'success', 1000)
+    } catch (err) {
+      showToast('保存失败', 'none')
+    }
   },
 
-  // 修改熟练度
+  // 修改熟练度（实时保存）
   async changeProficiency(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
@@ -92,11 +108,20 @@ Page({
     const proficiency = parseInt(e.currentTarget.dataset.rating)
     const song = this.data.song
     
-    await updateSong(song.song_id, { proficiency })
-    await this.loadSongDetail(song.song_id)
+    // 实时保存
+    try {
+      await updateSong(song.song_id || song._id, { proficiency })
+      // 更新本地数据，无需重新加载
+      this.setData({
+        'song.proficiency': proficiency
+      })
+      showToast('已保存', 'success', 1000)
+    } catch (err) {
+      showToast('保存失败', 'none')
+    }
   },
 
-  // 修改状态
+  // 修改状态（实时保存）
   async changeStatus(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
@@ -105,8 +130,17 @@ Page({
     const status = e.currentTarget.dataset.status
     const song = this.data.song
     
-    await updateSong(song.song_id, { status })
-    await this.loadSongDetail(song.song_id)
+    // 实时保存
+    try {
+      await updateSong(song.song_id || song._id, { status })
+      // 更新本地数据，无需重新加载
+      this.setData({
+        'song.status': status
+      })
+      showToast('已保存', 'success', 1000)
+    } catch (err) {
+      showToast('保存失败', 'none')
+    }
   },
 
   // 查看所有练习记录

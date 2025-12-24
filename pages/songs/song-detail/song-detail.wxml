@@ -231,6 +231,12 @@
     <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
   </view>
   
+  <!-- 编辑提示 -->
+  <view class="edit-hint" wx:if="{{!readonly}}">
+    <text class="hint-icon">💡</text>
+    <text class="hint-text">点击段落、星级、状态即可实时保存</text>
+  </view>
+  
   <!-- 只读模式提示 -->
   <view class="readonly-notice" wx:if="{{readonly}}">
     <text class="notice-icon">👁</text>

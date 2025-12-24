@@ -36,11 +36,11 @@ export function formatDuration(minutes) {
 /**
  * 显示提示信息
  */
-export function showToast(title, icon = 'none') {
+export function showToast(title, icon = 'none', duration = 2000) {
   wx.showToast({
     title,
     icon,
-    duration: 2000
+    duration: duration
   })
 }
 
