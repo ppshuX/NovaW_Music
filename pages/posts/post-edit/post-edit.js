@@ -136,9 +136,19 @@ Page({
   },
 
   onDateChange(e) {
+    const date = e.detail.value
     this.setData({
-      'formData.date': e.detail.value
+      'formData.date': date
     })
+    // 如果选择了未来日期，提示将归入"计划中"
+    if (date) {
+      const selectedDate = new Date(date)
+      const now = new Date()
+      if (selectedDate > now) {
+        // 未来日期，动态会归入"计划中"
+        // 提示已在WXML中显示
+      }
+    }
   },
 
   // 选择歌曲

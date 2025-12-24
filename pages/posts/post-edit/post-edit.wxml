@@ -92,6 +92,7 @@
       <view class="section-label">
         <text class="label-text">日期</text>
         <text class="label-hint">（选填）</text>
+        <text class="date-tip" wx:if="{{formData.date}}">（未来日期将归入"计划中"）</text>
       </view>
       <picker 
         mode="date" 
