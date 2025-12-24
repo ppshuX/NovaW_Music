@@ -1,5 +1,11 @@
 <!--pages/posts/post-list/post-list.wxml-->
 <view class="container timeline-container">
+  <!-- 总标题 -->
+  <view class="app-header">
+    <view class="app-title">NovaW_Music</view>
+    <view class="app-subtitle">音乐成长记录</view>
+  </view>
+
   <!-- 时间线样式动态列表 -->
   <view class="timeline">
     <view 

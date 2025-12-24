@@ -1,8 +1,18 @@
 <!--pages/posts/post-edit/post-edit.wxml-->
-<view class="container">
-  <view class="card">
-    <view class="form-item">
-      <view class="form-label">动态类型 *</view>
+<view class="container edit-container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">{{isEdit ? '编辑动态' : '发布动态'}}</view>
+  </view>
+
+  <!-- 表单卡片 -->
+  <view class="form-card">
+    <!-- 动态类型 -->
+    <view class="form-section">
+      <view class="section-label">
+        <text class="label-text">动态类型</text>
+        <text class="label-required">*</text>
+      </view>
       <picker 
         mode="selector" 
         range="{{typeOptions}}"
@@ -10,34 +20,54 @@
         value="{{postTypeIndex}}"
         bindchange="onTypeChange"
       >
-        <view class="picker">{{currentTypeLabel}}</view>
+        <view class="picker-wrapper picker-enhanced">
+          <text class="picker-text">{{currentTypeLabel}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
 
-    <view class="form-item">
-      <view class="form-label">标题 *</view>
-      <input 
-        class="input" 
-        placeholder="输入动态标题"
-        value="{{formData.title}}"
-        bindinput="onTitleInput"
-      />
+    <!-- 标题 -->
+    <view class="form-section">
+      <view class="section-label">
+        <text class="label-text">标题</text>
+        <text class="label-required">*</text>
+      </view>
+      <view class="input-wrapper">
+        <input 
+          class="input-enhanced" 
+          placeholder="输入动态标题..."
+          value="{{formData.title}}"
+          bindinput="onTitleInput"
+        />
+      </view>
     </view>
 
-    <view class="form-item">
-      <view class="form-label">内容</view>
-      <textarea 
-        class="textarea" 
-        placeholder="描述一下..."
-        value="{{formData.content}}"
-        bindinput="onContentInput"
-        maxlength="500"
-      />
+    <!-- 内容 -->
+    <view class="form-section">
+      <view class="section-label">
+        <text class="label-text">内容</text>
+        <text class="label-hint">（选填）</text>
+      </view>
+      <view class="textarea-wrapper">
+        <textarea 
+          class="textarea-enhanced" 
+          placeholder="描述一下你的动态..."
+          value="{{formData.content}}"
+          bindinput="onContentInput"
+          maxlength="500"
+          auto-height
+        />
+        <view class="char-count">{{formData.content.length}}/500</view>
+      </view>
     </view>
 
     <!-- 歌曲选择（新歌相关） -->
-    <view class="form-item" wx:if="{{postType === 'song_coming' || postType === 'song_released'}}">
-      <view class="form-label">关联歌曲</view>
+    <view class="form-section" wx:if="{{postType === 'song_coming' || postType === 'song_released'}}">
+      <view class="section-label">
+        <text class="label-text">关联歌曲</text>
+        <text class="label-hint">（选填）</text>
+      </view>
       <picker 
         mode="selector" 
         range="{{songs}}"
@@ -45,48 +75,73 @@
         value="{{selectedSongIndex}}"
         bindchange="onSongChange"
       >
-        <view class="picker">{{formData.song_title || '选择歌曲（可选）'}}</view>
+        <view class="picker-wrapper picker-enhanced">
+          <text class="picker-text">{{formData.song_title || '选择歌曲'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
 
     <!-- 日期 -->
-    <view class="form-item">
-      <view class="form-label">日期</view>
+    <view class="form-section">
+      <view class="section-label">
+        <text class="label-text">日期</text>
+        <text class="label-hint">（选填）</text>
+      </view>
       <picker 
         mode="date" 
         value="{{formData.date}}"
         bindchange="onDateChange"
       >
-        <view class="picker">{{formData.date || '选择日期（可选）'}}</view>
+        <view class="picker-wrapper picker-enhanced">
+          <text class="picker-text">{{formData.date || '选择日期'}}</text>
+          <text class="picker-arrow">›</text>
+        </view>
       </picker>
     </view>
 
     <!-- 地点（演出信息） -->
-    <view class="form-item" wx:if="{{postType === 'show'}}">
-      <view class="form-label">演出地点</view>
-      <input 
-        class="input" 
-        placeholder="如：XX酒吧、XX音乐节"
-        value="{{formData.location}}"
-        bindinput="onLocationInput"
-      />
+    <view class="form-section" wx:if="{{postType === 'show'}}">
+      <view class="section-label">
+        <text class="label-text">演出地点</text>
+        <text class="label-hint">（选填）</text>
+      </view>
+      <view class="input-wrapper">
+        <input 
+          class="input-enhanced" 
+          placeholder="如：XX酒吧、XX音乐节"
+          value="{{formData.location}}"
+          bindinput="onLocationInput"
+        />
+      </view>
     </view>
 
     <!-- 图片 -->
-    <view class="form-item">
-      <view class="form-label">图片</view>
-      <view class="images-list" wx:if="{{formData.images.length > 0}}">
-        <view class="image-item" wx:for="{{formData.images}}" wx:key="*this" wx:for-index="imgIndex">
-          <image class="preview-image" src="{{item}}" mode="aspectFill"></image>
-          <text class="delete-image" bindtap="deleteImage" data-index="{{imgIndex}}">×</text>
+    <view class="form-section">
+      <view class="section-label">
+        <text class="label-text">图片</text>
+        <text class="label-hint">（选填）</text>
+      </view>
+      <view class="images-grid" wx:if="{{formData.images.length > 0}}">
+        <view class="image-item-enhanced" wx:for="{{formData.images}}" wx:key="*this" wx:for-index="imgIndex">
+          <image class="preview-image-enhanced" src="{{item}}" mode="aspectFill"></image>
+          <view class="delete-image-btn" bindtap="deleteImage" data-index="{{imgIndex}}">
+            <text class="delete-icon">×</text>
+          </view>
         </view>
       </view>
-      <button class="btn btn-secondary" size="mini" bindtap="uploadImage">+ 添加图片</button>
+      <view class="upload-image-btn" bindtap="uploadImage">
+        <text class="upload-icon">+</text>
+        <text class="upload-text">添加图片</text>
+      </view>
     </view>
   </view>
 
-  <view class="action-buttons">
-    <button class="btn btn-primary" bindtap="save">{{isEdit ? '保存' : '发布'}}</button>
+  <!-- 发布按钮 -->
+  <view class="action-buttons-enhanced">
+    <button class="btn-publish" bindtap="save">
+      <text class="btn-text">{{isEdit ? '保存' : '发布'}}</text>
+    </button>
   </view>
 </view>
 

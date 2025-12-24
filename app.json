@@ -1,7 +1,7 @@
 {
     "pages": [
-        "pages/dashboard/dashboard",
         "pages/posts/post-list/post-list",
+        "pages/dashboard/dashboard",
         "pages/songs/song-list/song-list",
         "pages/songs/song-detail/song-detail",
         "pages/songs/song-edit/song-edit",
@@ -11,7 +11,7 @@
         "pages/media/video-player/video-player"
     ],
     "window": {
-        "navigationBarTitleText": "MusicOS·Grigg",
+        "navigationBarTitleText": "NovaW_Music",
         "navigationBarBackgroundColor": "#1a1a2e",
         "navigationBarTextStyle": "white",
         "backgroundColor": "#16213e",
@@ -24,12 +24,12 @@
         "borderStyle": "black",
         "list": [
             {
-                "pagePath": "pages/dashboard/dashboard",
-                "text": "仪表盘"
-            },
-            {
                 "pagePath": "pages/posts/post-list/post-list",
                 "text": "动态"
+            },
+            {
+                "pagePath": "pages/dashboard/dashboard",
+                "text": "仪表盘"
             },
             {
                 "pagePath": "pages/songs/song-list/song-list",

@@ -4,6 +4,30 @@
   min-height: 100vh;
 }
 
+.app-header {
+  padding: 50rpx 30rpx 40rpx;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(15, 52, 96, 0.3) 0%, rgba(83, 52, 131, 0.2) 100%);
+  margin-bottom: 30rpx;
+  border-bottom: 1px solid rgba(15, 52, 96, 0.3);
+}
+
+.app-title {
+  font-size: 56rpx;
+  font-weight: bold;
+  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10rpx;
+  letter-spacing: 2rpx;
+}
+
+.app-subtitle {
+  font-size: 26rpx;
+  color: rgba(234, 234, 234, 0.7);
+}
+
 .timeline {
   position: relative;
   padding: 40rpx 0 200rpx 80rpx;
