@@ -1,11 +1,12 @@
 {
     "pages": [
         "pages/dashboard/dashboard",
+        "pages/posts/post-list/post-list",
         "pages/songs/song-list/song-list",
         "pages/songs/song-detail/song-detail",
         "pages/songs/song-edit/song-edit",
         "pages/practice/practice-log/practice-log",
-        "pages/showcase/showcase",
+        "pages/posts/post-edit/post-edit",
         "pages/settings/data-import/data-import",
         "pages/media/video-player/video-player"
     ],
@@ -27,12 +28,12 @@
                 "text": "仪表盘"
             },
             {
-                "pagePath": "pages/songs/song-list/song-list",
-                "text": "歌曲库"
+                "pagePath": "pages/posts/post-list/post-list",
+                "text": "动态"
             },
             {
-                "pagePath": "pages/showcase/showcase",
-                "text": "作品集"
+                "pagePath": "pages/songs/song-list/song-list",
+                "text": "歌曲库"
             }
         ]
     },

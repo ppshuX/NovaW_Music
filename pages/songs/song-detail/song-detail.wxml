@@ -166,7 +166,9 @@
     <view class="media-list" wx:if="{{song.demo_videos && song.demo_videos.length > 0}}">
       <view class="media-item video-item" wx:for="{{song.demo_videos}}" wx:key="url" wx:for-index="videoIndex">
         <view class="media-preview" bindtap="playVideo" data-url="{{item.url}}">
-          <image class="video-thumbnail" src="/assets/icons/video-placeholder.png" mode="aspectFill"></image>
+          <view class="video-placeholder">
+            <text class="video-icon">🎬</text>
+          </view>
           <view class="play-icon">▶</view>
         </view>
         <view class="media-info">

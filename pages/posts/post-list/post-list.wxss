@@ -1,0 +1,173 @@
+/* pages/posts/post-list/post-list.wxss */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+  padding-bottom: 120rpx;
+}
+
+.post-card {
+  background-color: #1a1a2e;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.3);
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.post-type-badge {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.post-type-song_coming {
+  background-color: rgba(83, 52, 131, 0.3);
+  color: #533483;
+}
+
+.post-type-song_released {
+  background-color: rgba(0, 212, 170, 0.3);
+  color: #00d4aa;
+}
+
+.post-type-show {
+  background-color: rgba(15, 52, 96, 0.3);
+  color: #0f3460;
+}
+
+.post-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.action-btn {
+  font-size: 24rpx;
+  color: #8b8b8b;
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  background-color: #16213e;
+}
+
+.action-btn.delete {
+  color: #ff6b6b;
+}
+
+.post-content {
+  margin-bottom: 20rpx;
+}
+
+.post-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+  color: #eaeaea;
+}
+
+.post-text {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #eaeaea;
+  margin-bottom: 15rpx;
+}
+
+.post-song-info {
+  padding: 15rpx;
+  background-color: #16213e;
+  border-radius: 10rpx;
+  margin-bottom: 15rpx;
+}
+
+.song-label {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.song-name {
+  font-size: 28rpx;
+  color: #0f3460;
+  font-weight: bold;
+}
+
+.post-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  margin-top: 15rpx;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.meta-icon {
+  font-size: 28rpx;
+}
+
+.meta-text {
+  font-size: 26rpx;
+  color: #8b8b8b;
+}
+
+.post-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+  margin-bottom: 20rpx;
+}
+
+.post-image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 10rpx;
+}
+
+.post-footer {
+  padding-top: 15rpx;
+  border-top: 1px solid #16213e;
+}
+
+.post-time {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 150rpx 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}
+
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8rpx 20rpx rgba(15, 52, 96, 0.4);
+  z-index: 100;
+}
+
+.fab-icon {
+  font-size: 60rpx;
+  color: #ffffff;
+  font-weight: 300;
+}
+

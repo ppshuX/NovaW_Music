@@ -1,0 +1,76 @@
+<!--pages/posts/post-list/post-list.wxml-->
+<view class="container">
+  <!-- 动态列表 -->
+  <view class="posts-list">
+    <view 
+      class="post-card" 
+      wx:for="{{posts}}" 
+      wx:key="post_id"
+    >
+      <!-- 动态类型标签 -->
+      <view class="post-header">
+        <view class="post-type-badge post-type-{{item.type}}">
+          {{item.type === 'song_coming' ? '🎵 新歌预告' : item.type === 'song_released' ? '🎉 新歌发布' : '🎤 演出信息'}}
+        </view>
+        <view class="post-actions">
+          <text class="action-btn" bindtap="editPost" data-post-id="{{item.post_id}}">编辑</text>
+          <text class="action-btn delete" bindtap="deletePost" data-post-id="{{item.post_id}}">删除</text>
+        </view>
+      </view>
+
+      <!-- 动态内容 -->
+      <view class="post-content">
+        <view class="post-title">{{item.title}}</view>
+        <view class="post-text" wx:if="{{item.content}}">{{item.content}}</view>
+        
+        <!-- 歌曲信息 -->
+        <view class="post-song-info" wx:if="{{item.song_title}}">
+          <text class="song-label">歌曲：</text>
+          <text class="song-name">{{item.song_title}}</text>
+        </view>
+
+        <!-- 日期和地点 -->
+        <view class="post-meta">
+          <view class="meta-item" wx:if="{{item.date}}">
+            <text class="meta-icon">📅</text>
+            <text class="meta-text">{{formatPostDate(item.date)}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.location}}">
+            <text class="meta-icon">📍</text>
+            <text class="meta-text">{{item.location}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 图片 -->
+      <view class="post-images" wx:if="{{item.images && item.images.length > 0}}">
+        <image 
+          class="post-image" 
+          wx:for="{{item.images}}" 
+          wx:key="*this"
+          src="{{item}}" 
+          mode="aspectFill"
+          bindtap="previewImage"
+          data-url="{{item}}"
+          data-urls="{{item.images}}"
+        ></image>
+      </view>
+
+      <!-- 发布时间 -->
+      <view class="post-footer">
+        <text class="post-time">{{formatDate(item.created_at, 'YYYY-MM-DD HH:mm')}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{posts.length === 0}}">
+    <text class="empty-text">还没有动态，发布第一条吧！</text>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="fab" bindtap="createPost">
+    <text class="fab-icon">+</text>
+  </view>
+</view>
+

@@ -14,8 +14,7 @@ App({
     // 检查并初始化本地数据
     const songs = wx.getStorageSync('songs') || []
     const practiceLogs = wx.getStorageSync('practice_logs') || []
-    const plans = wx.getStorageSync('plans') || []
-    const performances = wx.getStorageSync('performances') || []
+    const posts = wx.getStorageSync('posts') || []
     
     if (songs.length === 0) {
       wx.setStorageSync('songs', [])
@@ -23,11 +22,8 @@ App({
     if (practiceLogs.length === 0) {
       wx.setStorageSync('practice_logs', [])
     }
-    if (plans.length === 0) {
-      wx.setStorageSync('plans', [])
-    }
-    if (performances.length === 0) {
-      wx.setStorageSync('performances', [])
+    if (posts.length === 0) {
+      wx.setStorageSync('posts', [])
     }
   },
 
