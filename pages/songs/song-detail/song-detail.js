@@ -123,21 +123,19 @@ Page({
       return
     }
     try {
-      showLoading('上传中...')
       const videoInfo = await chooseAndUploadVideo({
-        name: `${this.data.song.title}_演示视频`
+        name: `${this.data.song.title}_演示视频`,
+        songId: this.data.song.song_id || this.data.song._id
       })
       
       const song = this.data.song
       const videos = song.demo_videos || []
       videos.push(videoInfo)
       
-      await updateSong(song.song_id, { demo_videos: videos })
-      hideLoading()
+      await updateSong(song.song_id || song._id, { demo_videos: videos })
       showToast('上传成功', 'success')
-      await this.loadSongDetail(song.song_id)
+      await this.loadSongDetail(song.song_id || song._id)
     } catch (err) {
-      hideLoading()
       if (err.message !== '未选择视频') {
         showToast('上传失败：' + err.message, 'none')
       }
@@ -186,21 +184,20 @@ Page({
       return
     }
     try {
-      showLoading('上传中...')
       const imageInfo = await chooseAndUploadImage({
-        name: `${this.data.song.title}_乐谱`
+        name: `${this.data.song.title}_乐谱`,
+        songId: this.data.song.song_id || this.data.song._id,
+        type: 'sheets'
       })
       
       const song = this.data.song
       const sheets = song.sheet_music || []
       sheets.push(imageInfo)
       
-      await updateSong(song.song_id, { sheet_music: sheets })
-      hideLoading()
+      await updateSong(song.song_id || song._id, { sheet_music: sheets })
       showToast('上传成功', 'success')
-      await this.loadSongDetail(song.song_id)
+      await this.loadSongDetail(song.song_id || song._id)
     } catch (err) {
-      hideLoading()
       if (err.message !== '未选择图片') {
         showToast('上传失败：' + err.message, 'none')
       }

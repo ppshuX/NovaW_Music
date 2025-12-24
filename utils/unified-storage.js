@@ -16,7 +16,7 @@ let currentOpenId = null
 export async function initStorage() {
   if (USE_CLOUD) {
     // 初始化云开发
-    cloudStorage.initCloud()
+    cloudStorage.initCloud(CLOUD_ENV_ID)
     
     // 获取当前用户OpenID
     try {

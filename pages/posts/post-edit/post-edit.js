@@ -150,8 +150,14 @@ Page({
   // 上传图片
   async uploadImage() {
     try {
-      const imageInfo = await chooseAndUploadImage()
-      const images = [...this.data.formData.images, imageInfo.url]
+      const postId = this.data.postId || 'new'
+      const imageInfo = await chooseAndUploadImage({
+        postId: postId,
+        type: 'images'
+      })
+      // 使用fileID存储（如果是云存储）或url（如果是本地）
+      const imagePath = imageInfo.fileID || imageInfo.url
+      const images = [...this.data.formData.images, imagePath]
       this.setData({
         'formData.images': images
       })
