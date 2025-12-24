@@ -1,7 +1,8 @@
 /* pages/posts/post-list/post-list.wxss */
-.timeline-container {
+.columns-container {
   background: linear-gradient(180deg, #16213e 0%, #1a1a2e 100%);
   min-height: 100vh;
+  padding-bottom: 150rpx;
 }
 
 .app-header {
@@ -26,38 +27,6 @@
 .app-subtitle {
   font-size: 26rpx;
   color: rgba(234, 234, 234, 0.7);
-}
-
-.timeline {
-  position: relative;
-  padding: 40rpx 0 200rpx 80rpx;
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 50rpx;
-}
-
-.timeline-dot {
-  position: absolute;
-  left: -60rpx;
-  top: 30rpx;
-  width: 20rpx;
-  height: 20rpx;
-  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
-  border-radius: 50%;
-  border: 4rpx solid #16213e;
-  z-index: 2;
-}
-
-.timeline-line {
-  position: absolute;
-  left: -50rpx;
-  top: 50rpx;
-  width: 2rpx;
-  height: calc(100% + 20rpx);
-  background: linear-gradient(180deg, #0f3460 0%, transparent 100%);
-  z-index: 1;
 }
 
 /* 三栏布局 */
