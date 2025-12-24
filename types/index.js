@@ -102,6 +102,23 @@ export const PerformanceSchema = {
 }
 
 /**
+ * 动态数据结构
+ */
+export const PostSchema = {
+  post_id: '',          // 唯一ID
+  type: '',             // 类型：song_coming/ song_released/ show
+  title: '',            // 标题
+  content: '',          // 内容
+  song_id: '',          // 关联歌曲ID（如果是歌曲相关）
+  song_title: '',       // 歌曲名（冗余，方便显示）
+  date: '',             // 日期（演出日期/发布日期）
+  location: '',         // 地点（演出地点）
+  images: [],           // 图片数组
+  created_at: '',       // 创建时间
+  updated_at: ''         // 更新时间
+}
+
+/**
  * 用户公开资料
  */
 export const PublicProfileSchema = {
@@ -109,7 +126,6 @@ export const PublicProfileSchema = {
   bio: '',              // 简介
   style: '',            // 风格
   voice_type: '',       // 声线
-  expertise: [],        // 擅长方向
-  timeline: []          // 音乐成长时间线
+  expertise: []         // 擅长方向
 }
 
