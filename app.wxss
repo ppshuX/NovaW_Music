@@ -10,6 +10,9 @@ page {
 .container {
   padding: 30rpx;
   min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* 通用按钮样式 */
