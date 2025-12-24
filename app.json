@@ -5,7 +5,8 @@
         "pages/songs/song-detail/song-detail",
         "pages/songs/song-edit/song-edit",
         "pages/practice/practice-log/practice-log",
-        "pages/showcase/showcase"
+        "pages/showcase/showcase",
+        "pages/settings/data-import/data-import"
     ],
     "window": {
         "navigationBarTitleText": "MusicOS·Grigg",

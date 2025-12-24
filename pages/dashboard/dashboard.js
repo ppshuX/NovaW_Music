@@ -87,6 +87,13 @@ Page({
     wx.navigateTo({
       url: '/pages/practice/practice-log/practice-log'
     })
+  },
+
+  // 导入歌曲
+  importSongs() {
+    wx.navigateTo({
+      url: '/pages/settings/data-import/data-import'
+    })
   }
 })
 
