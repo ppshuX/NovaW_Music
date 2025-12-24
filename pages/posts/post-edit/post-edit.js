@@ -9,6 +9,8 @@ Page({
     postId: null,
     isEdit: false,
     postType: 'song_coming', // song_coming, song_released, show
+    postTypeIndex: 0,
+    selectedSongIndex: -1,
     formData: {
       title: '',
       content: '',
@@ -23,7 +25,8 @@ Page({
       { value: 'song_coming', label: '新歌预告' },
       { value: 'song_released', label: '新歌发布' },
       { value: 'show', label: '演出信息' }
-    ]
+    ],
+    currentTypeLabel: '新歌预告'
   },
 
   onLoad(options) {
@@ -42,14 +45,33 @@ Page({
     this.setData({
       songs
     })
+    // 更新歌曲索引
+    this.updateSongIndex()
+  },
+
+  // 更新歌曲索引
+  updateSongIndex() {
+    if (this.data.formData.song_id) {
+      const songIndex = this.data.songs.findIndex(s => s.song_id === this.data.formData.song_id)
+      this.setData({
+        selectedSongIndex: songIndex >= 0 ? songIndex : -1
+      })
+    }
   },
 
   loadPost(postId) {
     const posts = getPosts()
     const post = posts.find(p => p.post_id === postId)
     if (post) {
+      // 计算类型索引
+      const typeIndex = this.data.typeOptions.findIndex(t => t.value === post.type)
+      const typeLabel = this.data.typeOptions[typeIndex]?.label || '新歌预告'
+      
+      // 计算歌曲索引（稍后在loadSongs后更新）
       this.setData({
         postType: post.type,
+        postTypeIndex: typeIndex >= 0 ? typeIndex : 0,
+        currentTypeLabel: typeLabel,
         formData: {
           title: post.title || '',
           content: post.content || '',
@@ -60,15 +82,21 @@ Page({
           images: post.images || []
         }
       })
+      
+      // 加载歌曲后更新歌曲索引
+      this.updateSongIndex()
     }
   },
 
   // 选择动态类型
   onTypeChange(e) {
-    const index = e.detail.value
+    const index = parseInt(e.detail.value)
     const type = this.data.typeOptions[index].value
+    const label = this.data.typeOptions[index].label
     this.setData({
-      postType: type
+      postType: type,
+      postTypeIndex: index,
+      currentTypeLabel: label
     })
   },
 
@@ -99,12 +127,13 @@ Page({
 
   // 选择歌曲
   onSongChange(e) {
-    const index = e.detail.value
+    const index = parseInt(e.detail.value)
     const song = this.data.songs[index]
     if (song) {
       this.setData({
         'formData.song_id': song.song_id,
-        'formData.song_title': song.title
+        'formData.song_title': song.title,
+        selectedSongIndex: index
       })
     }
   },

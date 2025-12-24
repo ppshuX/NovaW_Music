@@ -7,10 +7,10 @@
         mode="selector" 
         range="{{typeOptions}}"
         range-key="label"
-        value="{{typeOptions.findIndex(t => t.value === postType)}}"
+        value="{{postTypeIndex}}"
         bindchange="onTypeChange"
       >
-        <view class="picker">{{typeOptions.find(t => t.value === postType).label}}</view>
+        <view class="picker">{{currentTypeLabel}}</view>
       </picker>
     </view>
 
@@ -42,7 +42,7 @@
         mode="selector" 
         range="{{songs}}"
         range-key="title"
-        value="{{songs.findIndex(s => s.song_id === formData.song_id)}}"
+        value="{{selectedSongIndex}}"
         bindchange="onSongChange"
       >
         <view class="picker">{{formData.song_title || '选择歌曲（可选）'}}</view>
