@@ -32,18 +32,29 @@ export async function initStorage() {
 /**
  * 判断当前用户是否是主人（可以编辑）
  */
-export function isOwner() {
+export async function isOwner() {
   if (!USE_CLOUD) {
     // 本地存储模式下，默认所有人都是主人
-    return true
+    return Promise.resolve(true)
+  }
+  
+  // 如果还没有获取OpenID，尝试获取
+  if (!currentOpenId) {
+    try {
+      currentOpenId = await cloudStorage.getCurrentUserOpenId()
+      wx.setStorageSync('current_openid', currentOpenId)
+    } catch (err) {
+      console.error('获取OpenID失败:', err)
+      currentOpenId = wx.getStorageSync('current_openid')
+    }
   }
   
   if (!OWNER_OPENID) {
     // 如果没有设置主人OpenID，则所有人都可以编辑（开发模式）
-    return true
+    return Promise.resolve(true)
   }
   
-  return currentOpenId === OWNER_OPENID
+  return Promise.resolve(currentOpenId === OWNER_OPENID)
 }
 
 /**
