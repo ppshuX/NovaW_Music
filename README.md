@@ -108,7 +108,10 @@ NovaW_Music/
    - 打开微信开发者工具
    - 选择"导入项目"
    - 选择项目目录
-   - 填写 AppID（可以使用测试号）
+   - **配置 AppID**：
+     - 复制 `project.config.example.json` 为 `project.config.json`
+     - 将 `your-appid-here` 替换为你的真实 AppID（可以使用测试号）
+     - ⚠️ **注意**：`project.config.json` 已添加到 .gitignore，不会提交到仓库
 
 3. **运行项目**
    - 点击"编译"按钮
