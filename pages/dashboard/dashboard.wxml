@@ -18,7 +18,7 @@
       </view>
     </view>
     <view class="action-buttons-row">
-      <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
+      <button class="btn btn-primary" bindtap="addPracticeLog" wx:if="{{isOwner}}">记录练习</button>
       <button class="btn btn-secondary" bindtap="viewPracticeLogs">查看记录</button>
     </view>
   </view>
@@ -87,12 +87,12 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{practicingSongs.length === 0 && upcomingReleases.length === 0}}">
     <text class="empty-text">还没有开始练习，快去添加歌曲吧！</text>
-    <button class="btn btn-primary" bindtap="goToSongList">添加歌曲</button>
-    <button class="btn btn-secondary" style="margin-top: 20rpx;" bindtap="importSongs">批量导入歌曲</button>
+    <button class="btn btn-primary" bindtap="goToSongList" wx:if="{{isOwner}}">添加歌曲</button>
+    <button class="btn btn-secondary" style="margin-top: 20rpx;" bindtap="importSongs" wx:if="{{isOwner}}">批量导入歌曲</button>
   </view>
 
   <!-- 快速导入入口 -->
-  <view class="card quick-import" wx:if="{{practicingSongs.length > 0 || upcomingReleases.length > 0}}">
+  <view class="card quick-import" wx:if="{{(practicingSongs.length > 0 || upcomingReleases.length > 0) && isOwner}}">
     <view class="section-title">快速操作</view>
     <button class="btn btn-secondary" bindtap="importSongs">批量导入历史歌曲</button>
   </view>

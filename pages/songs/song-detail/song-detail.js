@@ -1,5 +1,5 @@
 // pages/songs/song-detail/song-detail.js
-import { getSongById, getPracticeLogs, updateSong } from '../../../utils/storage.js'
+import { getSongById, getPracticeLogs, updateSong, isOwner } from '../../../utils/unified-storage.js'
 import { formatDate, formatDuration, getStatusColor, showToast, showLoading, hideLoading } from '../../../utils/util.js'
 import { chooseAndUploadVideo, chooseAndUploadImage, deleteFile, previewImage, playVideo } from '../../../utils/file-upload.js'
 
@@ -8,29 +8,32 @@ Page({
     song: null,
     practiceLogs: [],
     showEditMenu: false,
-    readonly: false  // 只读模式
+    readonly: false  // 只读模式（访客模式）
   },
 
-  onLoad(options) {
+  async onLoad(options) {
     const songId = options.id
-    const readonly = options.readonly === 'true' || options.readonly === true
+    // 判断是否是主人（可以编辑）
+    const isOwnerUser = await isOwner()
+    const readonly = !isOwnerUser || (options.readonly === 'true' || options.readonly === true)
+    
     if (songId) {
       this.setData({
         readonly: readonly
       })
-      this.loadSongDetail(songId)
+      await this.loadSongDetail(songId)
     }
   },
 
-  onShow() {
+  async onShow() {
     // 刷新数据
     if (this.data.song) {
-      this.loadSongDetail(this.data.song.song_id)
+      await this.loadSongDetail(this.data.song.song_id)
     }
   },
 
-  loadSongDetail(songId) {
-    const song = getSongById(songId)
+  async loadSongDetail(songId) {
+    const song = await getSongById(songId)
     if (!song) {
       showToast('歌曲不存在', 'none')
       setTimeout(() => {
@@ -40,7 +43,8 @@ Page({
     }
 
     // 加载练习记录
-    const practiceLogs = getPracticeLogs(songId)
+    const allLogs = await getPracticeLogs(songId)
+    const practiceLogs = allLogs
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 10) // 只显示最近10条
 
@@ -65,7 +69,7 @@ Page({
   },
 
   // 切换段落掌握状态
-  toggleSection(e) {
+  async toggleSection(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
       return
@@ -75,12 +79,12 @@ Page({
     const sections = { ...song.sections }
     sections[section] = !sections[section]
     
-    updateSong(song.song_id, { sections })
-    this.loadSongDetail(song.song_id)
+    await updateSong(song.song_id, { sections })
+    await this.loadSongDetail(song.song_id)
   },
 
   // 修改熟练度
-  changeProficiency(e) {
+  async changeProficiency(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
       return
@@ -88,12 +92,12 @@ Page({
     const proficiency = parseInt(e.currentTarget.dataset.rating)
     const song = this.data.song
     
-    updateSong(song.song_id, { proficiency })
-    this.loadSongDetail(song.song_id)
+    await updateSong(song.song_id, { proficiency })
+    await this.loadSongDetail(song.song_id)
   },
 
   // 修改状态
-  changeStatus(e) {
+  async changeStatus(e) {
     if (this.data.readonly) {
       showToast('只读模式，无法修改', 'none')
       return
@@ -101,8 +105,8 @@ Page({
     const status = e.currentTarget.dataset.status
     const song = this.data.song
     
-    updateSong(song.song_id, { status })
-    this.loadSongDetail(song.song_id)
+    await updateSong(song.song_id, { status })
+    await this.loadSongDetail(song.song_id)
   },
 
   // 查看所有练习记录
@@ -128,10 +132,10 @@ Page({
       const videos = song.demo_videos || []
       videos.push(videoInfo)
       
-      updateSong(song.song_id, { demo_videos: videos })
+      await updateSong(song.song_id, { demo_videos: videos })
       hideLoading()
       showToast('上传成功', 'success')
-      this.loadSongDetail(song.song_id)
+      await this.loadSongDetail(song.song_id)
     } catch (err) {
       hideLoading()
       if (err.message !== '未选择视频') {
@@ -161,9 +165,9 @@ Page({
           
           // 从列表中移除
           videos.splice(index, 1)
-          updateSong(song.song_id, { demo_videos: videos })
+          await updateSong(song.song_id, { demo_videos: videos })
           showToast('删除成功', 'success')
-          this.loadSongDetail(song.song_id)
+          await this.loadSongDetail(song.song_id)
         }
       }
     })
@@ -191,10 +195,10 @@ Page({
       const sheets = song.sheet_music || []
       sheets.push(imageInfo)
       
-      updateSong(song.song_id, { sheet_music: sheets })
+      await updateSong(song.song_id, { sheet_music: sheets })
       hideLoading()
       showToast('上传成功', 'success')
-      this.loadSongDetail(song.song_id)
+      await this.loadSongDetail(song.song_id)
     } catch (err) {
       hideLoading()
       if (err.message !== '未选择图片') {
@@ -224,9 +228,9 @@ Page({
           
           // 从列表中移除
           sheets.splice(index, 1)
-          updateSong(song.song_id, { sheet_music: sheets })
+          await updateSong(song.song_id, { sheet_music: sheets })
           showToast('删除成功', 'success')
-          this.loadSongDetail(song.song_id)
+          await this.loadSongDetail(song.song_id)
         }
       }
     })

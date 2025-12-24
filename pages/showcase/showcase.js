@@ -1,5 +1,5 @@
 // pages/showcase/showcase.js
-import { getSongs } from '../../utils/storage.js'
+import { getSongs } from '../../utils/unified-storage.js'
 import { formatDate } from '../../utils/util.js'
 
 Page({
@@ -10,16 +10,16 @@ Page({
     originalSongs: []
   },
 
-  onLoad() {
-    this.loadShowcaseData()
+  async onLoad() {
+    await this.loadShowcaseData()
   },
 
-  onShow() {
-    this.loadShowcaseData()
+  async onShow() {
+    await this.loadShowcaseData()
   },
 
-  loadShowcaseData() {
-    const allSongs = getSongs()
+  async loadShowcaseData() {
+    const allSongs = await getSongs()
     
     // 只显示非私密的歌曲
     const publicSongs = allSongs.filter(song => !song.is_private)
@@ -47,13 +47,8 @@ Page({
     })
   },
 
-  // 分享（注意：当前使用本地存储，分享后别人看到的是他们自己的数据）
+  // 分享
   onShareAppMessage() {
-    wx.showModal({
-      title: '提示',
-      content: '当前使用本地存储，分享后朋友看到的是他们自己的数据。如需分享你的数据，请先集成云开发。',
-      showCancel: false
-    })
     return {
       title: '我的音乐作品集',
       path: '/pages/showcase/showcase'

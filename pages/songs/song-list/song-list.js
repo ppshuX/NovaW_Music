@@ -1,25 +1,30 @@
 // pages/songs/song-list/song-list.js
-import { getSongs, deleteSong, calculateProgress } from '../../../utils/storage.js'
+import { getSongs, deleteSong, calculateProgress, isOwner } from '../../../utils/unified-storage.js'
 import { showModal, showToast } from '../../../utils/util.js'
 
 Page({
   data: {
     songs: [],
     filterStatus: 'all', // all, 未开始, 练习中, 可录制, 已完成
-    searchKeyword: ''
+    searchKeyword: '',
+    isOwner: false  // 是否是主人
   },
 
-  onLoad() {
-    this.loadSongs()
+  async onLoad() {
+    const owner = await isOwner()
+    this.setData({
+      isOwner: owner
+    })
+    await this.loadSongs()
   },
 
-  onShow() {
+  async onShow() {
     // 每次显示时刷新列表
-    this.loadSongs()
+    await this.loadSongs()
   },
 
-  loadSongs() {
-    const songs = getSongs()
+  async loadSongs() {
+    const songs = await getSongs()
     // 计算每首歌的进度
     const songsWithProgress = songs.map(song => {
       const progress = calculateProgress(song)
@@ -118,15 +123,20 @@ Page({
   // 删除歌曲
   async deleteSong(e) {
     e.stopPropagation()
+    if (!this.data.isOwner) {
+      showToast('只读模式，无法删除', 'none')
+      return
+    }
     const songId = e.currentTarget.dataset.songId
     const song = this.data.songs.find(s => s.song_id === songId)
     
     const confirmed = await showModal('确认删除', `确定要删除《${song.title}》吗？`)
     if (confirmed) {
-      if (deleteSong(songId)) {
+      try {
+        await deleteSong(songId)
         showToast('删除成功', 'success')
-        this.loadSongs()
-      } else {
+        await this.loadSongs()
+      } catch (err) {
         showToast('删除失败', 'none')
       }
     }

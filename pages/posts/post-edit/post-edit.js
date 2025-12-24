@@ -1,6 +1,5 @@
 // pages/posts/post-edit/post-edit.js
-import { getPosts, addPost, updatePost } from '../../../utils/posts.js'
-import { getSongs } from '../../../utils/storage.js'
+import { getPosts, addPost, updatePost, getSongs, isOwner } from '../../../utils/unified-storage.js'
 import { showToast } from '../../../utils/util.js'
 import { chooseAndUploadImage } from '../../../utils/file-upload.js'
 
@@ -29,19 +28,29 @@ Page({
     currentTypeLabel: '新歌预告'
   },
 
-  onLoad(options) {
+  async onLoad(options) {
+    // 检查是否是主人
+    const owner = await isOwner()
+    if (!owner) {
+      showToast('只读模式，无法编辑', 'none')
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 1500)
+      return
+    }
+    
     if (options.id) {
       this.setData({
         postId: options.id,
         isEdit: true
       })
-      this.loadPost(options.id)
+      await this.loadPost(options.id)
     }
-    this.loadSongs()
+    await this.loadSongs()
   },
 
-  loadSongs() {
-    const songs = getSongs()
+  async loadSongs() {
+    const songs = await getSongs()
     this.setData({
       songs
     })
@@ -59,8 +68,8 @@ Page({
     }
   },
 
-  loadPost(postId) {
-    const posts = getPosts()
+  async loadPost(postId) {
+    const posts = await getPosts()
     const post = posts.find(p => p.post_id === postId)
     if (post) {
       // 计算类型索引
@@ -165,7 +174,7 @@ Page({
   },
 
   // 保存
-  save() {
+  async save() {
     const { formData, postType, isEdit, postId } = this.data
     
     if (!formData.title.trim()) {
@@ -184,26 +193,22 @@ Page({
       images: formData.images
     }
 
-    if (isEdit) {
-      const updated = updatePost(postId, postData)
-      if (updated) {
+    try {
+      if (isEdit) {
+        await updatePost(postId, postData)
         showToast('保存成功', 'success')
         setTimeout(() => {
           wx.navigateBack()
         }, 1500)
       } else {
-        showToast('保存失败', 'none')
-      }
-    } else {
-      const newPost = addPost(postData)
-      if (newPost) {
+        await addPost(postData)
         showToast('发布成功', 'success')
         setTimeout(() => {
           wx.navigateBack()
         }, 1500)
-      } else {
-        showToast('发布失败', 'none')
       }
+    } catch (err) {
+      showToast(isEdit ? '保存失败' : '发布失败', 'none')
     }
   }
 })

@@ -1,5 +1,5 @@
 // pages/practice/practice-log/practice-log.js
-import { getSongs, getPracticeLogs, addPracticeLog, updateSong } from '../../../utils/storage.js'
+import { getSongs, getPracticeLogs, addPracticeLog, isOwner } from '../../../utils/unified-storage.js'
 import { formatDate, showToast } from '../../../utils/util.js'
 
 Page({
@@ -18,29 +18,40 @@ Page({
     practiceLogs: []
   },
 
-  onLoad(options) {
+  async onLoad(options) {
     const songId = options.songId
     const viewMode = options.viewMode || 'add'
     
     // 设置默认日期为今天
     const today = new Date().toISOString().split('T')[0]
     
+    // 检查是否是主人（只有主人可以添加记录）
+    const owner = await isOwner()
+    if (viewMode === 'add' && !owner) {
+      showToast('只读模式，无法添加记录', 'none')
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 1500)
+      return
+    }
+    
     this.setData({
       songId,
       viewMode,
       selectedSongId: songId || '',
-      'formData.date': today
+      'formData.date': today,
+      isOwner: owner
     })
 
     if (viewMode === 'all') {
-      this.loadPracticeLogs(songId)
+      await this.loadPracticeLogs(songId)
     } else {
-      this.loadSongs()
+      await this.loadSongs()
     }
   },
 
-  loadSongs() {
-    const songs = getSongs()
+  async loadSongs() {
+    const songs = await getSongs()
     let selectedSongIndex = -1
     let selectedSongTitle = '请选择歌曲'
     
@@ -59,12 +70,13 @@ Page({
     })
   },
 
-  loadPracticeLogs(songId) {
-    const logs = getPracticeLogs(songId)
+  async loadPracticeLogs(songId) {
+    const allLogs = await getPracticeLogs(songId)
+    const logs = allLogs
       .sort((a, b) => new Date(b.date) - new Date(a.date))
     
     // 关联歌曲信息
-    const songs = getSongs()
+    const songs = await getSongs()
     const logsWithSongInfo = logs.map(log => {
       const song = songs.find(s => s.song_id === log.song_id)
       return {
@@ -121,7 +133,12 @@ Page({
   },
 
   // 保存练习记录
-  save() {
+  async save() {
+    if (!this.data.isOwner) {
+      showToast('只读模式，无法添加记录', 'none')
+      return
+    }
+    
     const { selectedSongId, formData } = this.data
     
     if (!selectedSongId) {
@@ -146,13 +163,13 @@ Page({
       notes: formData.notes
     }
 
-    const result = addPracticeLog(log)
-    if (result) {
+    try {
+      await addPracticeLog(log)
       showToast('记录成功', 'success')
       setTimeout(() => {
         wx.navigateBack()
       }, 1500)
-    } else {
+    } catch (err) {
       showToast('记录失败', 'none')
     }
   }

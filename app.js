@@ -1,12 +1,13 @@
 // app.js
+import { initStorage } from './utils/unified-storage.js'
+import { USE_CLOUD } from './config/index.js'
+
 App({
-  onLaunch() {
-    // 初始化云开发（如果使用云开发）
-    // wx.cloud.init({
-    //   env: 'your-env-id'
-    // })
+  async onLaunch() {
+    // 初始化存储（自动选择云开发或本地存储）
+    await initStorage()
     
-    // 初始化本地存储
+    // 初始化本地存储（作为备份）
     this.initStorage()
   },
 

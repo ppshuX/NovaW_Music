@@ -1,5 +1,5 @@
 // pages/dashboard/dashboard.js
-import { getTodayPracticeStats, getWeekPracticeStats, getPracticingSongs, getSongs } from '../../utils/storage.js'
+import { getTodayPracticeStats, getWeekPracticeStats, getPracticingSongs, getSongs, isOwner } from '../../utils/unified-storage.js'
 import { formatDuration, formatDate } from '../../utils/util.js'
 
 Page({
@@ -15,30 +15,35 @@ Page({
       logCount: 0
     },
     practicingSongs: [],
-    upcomingReleases: []
+    upcomingReleases: [],
+    isOwner: false
   },
 
-  onLoad() {
-    this.loadDashboardData()
+  async onLoad() {
+    const owner = await isOwner()
+    this.setData({
+      isOwner: owner
+    })
+    await this.loadDashboardData()
   },
 
-  onShow() {
+  async onShow() {
     // 每次显示时刷新数据
-    this.loadDashboardData()
+    await this.loadDashboardData()
   },
 
-  loadDashboardData() {
+  async loadDashboardData() {
     // 加载今日统计
-    const todayStats = getTodayPracticeStats()
+    const todayStats = await getTodayPracticeStats()
     
     // 加载本周统计
-    const weekStats = getWeekPracticeStats()
+    const weekStats = await getWeekPracticeStats()
     
     // 加载正在练习的歌曲
-    const practicingSongs = getPracticingSongs(3)
+    const practicingSongs = await getPracticingSongs(3)
     
     // 加载即将发布的作品（这里简化处理，实际可以从歌曲中筛选）
-    const upcomingReleases = this.getUpcomingReleases()
+    const upcomingReleases = await this.getUpcomingReleases()
     
     this.setData({
       todayStats,
@@ -48,9 +53,9 @@ Page({
     })
   },
 
-  getUpcomingReleases() {
+  async getUpcomingReleases() {
     // 获取状态为"可录制"或"已完成"且有预期发布日期的歌曲
-    const songs = getSongs()
+    const songs = await getSongs()
     const now = new Date()
     const upcoming = songs
       .filter(song => {

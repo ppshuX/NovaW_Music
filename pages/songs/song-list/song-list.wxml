@@ -101,7 +101,7 @@
         <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
       </view>
 
-      <view class="song-actions">
+      <view class="song-actions" wx:if="{{isOwner}}">
         <button 
           class="action-btn" 
           size="mini"
@@ -128,7 +128,7 @@
   </view>
 
   <!-- 添加按钮 -->
-  <view class="fab" bindtap="addSong">
+  <view class="fab" bindtap="addSong" wx:if="{{isOwner}}">
     <text class="fab-icon">+</text>
   </view>
 </view>

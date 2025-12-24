@@ -1,5 +1,5 @@
 // pages/songs/song-edit/song-edit.js
-import { getSongById, addSong, updateSong, calculateProgress } from '../../../utils/storage.js'
+import { getSongById, addSong, updateSong, calculateProgress, isOwner } from '../../../utils/unified-storage.js'
 import { SongSchema } from '../../../types/index.js'
 import { showToast } from '../../../utils/util.js'
 
@@ -34,19 +34,29 @@ Page({
     statusIndex: 0
   },
 
-  onLoad(options) {
+  async onLoad(options) {
+    // 检查是否是主人
+    const owner = await isOwner()
+    if (!owner) {
+      showToast('只读模式，无法编辑', 'none')
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 1500)
+      return
+    }
+    
     if (options.id) {
       // 编辑模式
       this.setData({
         songId: options.id,
         isEdit: true
       })
-      this.loadSong(options.id)
+      await this.loadSong(options.id)
     }
   },
 
-  loadSong(songId) {
-    const song = getSongById(songId)
+  async loadSong(songId) {
+    const song = await getSongById(songId)
     if (song) {
       const statusIndex = this.data.statusOptions.indexOf(song.status || '未开始')
       this.setData({
@@ -234,34 +244,30 @@ Page({
     // 计算进度
     const progress = calculateProgress(formData)
 
-    if (isEdit) {
-      // 更新
-      const updated = updateSong(songId, {
-        ...formData,
-        progress_percentage: progress
-      })
-      if (updated) {
+    try {
+      if (isEdit) {
+        // 更新
+        await updateSong(songId, {
+          ...formData,
+          progress_percentage: progress
+        })
         showToast('保存成功', 'success')
         setTimeout(() => {
           wx.navigateBack()
         }, 1500)
       } else {
-        showToast('保存失败', 'none')
-      }
-    } else {
-      // 新增
-      const newSong = addSong({
-        ...formData,
-        progress_percentage: progress
-      })
-      if (newSong) {
+        // 新增
+        await addSong({
+          ...formData,
+          progress_percentage: progress
+        })
         showToast('添加成功', 'success')
         setTimeout(() => {
           wx.navigateBack()
         }, 1500)
-      } else {
-        showToast('添加失败', 'none')
       }
+    } catch (err) {
+      showToast(isEdit ? '保存失败' : '添加失败', 'none')
     }
   }
 })
