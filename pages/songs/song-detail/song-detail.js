@@ -172,9 +172,9 @@ Page({
   },
 
   // 播放视频
-  playVideo(e) {
+  async playVideo(e) {
     const url = e.currentTarget.dataset.url
-    playVideo(url)
+    await playVideo(url)
   },
 
   // 上传乐谱
@@ -234,12 +234,14 @@ Page({
   },
 
   // 预览乐谱
-  previewSheetMusic(e) {
+  async previewSheetMusic(e) {
     const index = e.currentTarget.dataset.index
     const song = this.data.song
     const sheets = song.sheet_music || []
-    const urls = sheets.map(s => s.url)
-    previewImage(sheets[index].url, urls)
+    // 获取所有图片的URL（可能是云存储fileID或本地路径）
+    const urls = sheets.map(s => s.fileID || s.url)
+    const currentUrl = sheets[index].fileID || sheets[index].url
+    await previewImage(currentUrl, urls)
   }
 })
 
