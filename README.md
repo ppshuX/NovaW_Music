@@ -33,11 +33,16 @@
    - 正在练习的歌曲
    - 即将发布的作品
 
-4. **公开展示页**
-   - 展示已完成作品
-   - 展示正在练习的歌曲
-   - 展示原创作品
-   - 支持分享功能
+4. **动态发布**
+   - 发布新歌预告
+   - 发布新歌发布
+   - 发布演出信息
+   - 支持图片上传
+
+5. **媒体管理**
+   - 上传演示视频
+   - 上传乐谱图片
+   - 查看和播放
 
 ## 📁 项目结构
 
@@ -52,16 +57,16 @@ NovaW_Music/
 │   └── index.js
 ├── utils/                # 工具类
 │   ├── storage.js        # 本地存储工具
+│   ├── cloud-storage.js  # 云开发存储工具（可选）
+│   ├── posts.js          # 动态管理
+│   ├── file-upload.js    # 文件上传
 │   └── util.js           # 通用工具函数
 └── pages/                # 页面目录
     ├── dashboard/        # 仪表盘
+    ├── posts/            # 动态相关
     ├── songs/            # 歌曲相关页面
-    │   ├── song-list/    # 歌曲列表
-    │   ├── song-detail/  # 歌曲详情
-    │   └── song-edit/    # 添加/编辑歌曲
     ├── practice/         # 练习记录
-    │   └── practice-log/
-    └── showcase/         # 公开展示页
+    └── media/            # 媒体播放
 ```
 
 ## 🛠️ 技术栈
@@ -69,6 +74,30 @@ NovaW_Music/
 - **前端框架**: 微信小程序原生框架
 - **数据存储**: 微信小程序本地存储（wx.storage）
 - **样式**: WXSS（类似CSS）
+- **可选**: 微信云开发（用于数据分享功能）
+
+## ⚠️ 重要说明
+
+### 当前数据存储方式
+
+**本地存储**：
+- ✅ 数据存储在本地设备，速度快，无需网络
+- ❌ 分享给朋友后，朋友看到的是**他们自己的数据**，不是你的
+- ❌ 卸载小程序会丢失所有数据
+- ❌ 无法跨设备同步
+
+### 如何实现"别人查看我的数据"
+
+如果需要实现真正的数据分享功能，需要：
+
+1. **集成微信云开发**（推荐）
+   - 将数据存储到云端
+   - 配置数据库权限（公开读取）
+   - 参考 `docs/CLOUD_SETUP.md`
+
+2. **或使用自建后端API**
+   - 搭建自己的服务器
+   - 提供数据接口
 
 ## 📦 安装和运行
 
@@ -103,27 +132,29 @@ NovaW_Music/
 4. 可选：添加练习备注
 5. 保存记录
 
-### 查看统计
+### 发布动态
 
-- 在仪表盘查看今日和本周的练习统计
-- 查看正在练习的歌曲进度
-- 查看即将发布的作品
+1. 进入"动态"页面
+2. 点击右下角"+"按钮
+3. 选择动态类型（新歌预告/新歌发布/演出信息）
+4. 填写内容和信息
+5. 发布
 
-### 公开展示
+### 上传视频/乐谱
 
-- 进入"作品集"页面
-- 查看已完成、正在练习和原创作品
-- 点击右上角分享给朋友
+1. 进入歌曲详情页
+2. 在"演示视频"或"乐谱"区域点击"+ 上传"
+3. 选择文件
+4. 自动上传
 
 ## 🔮 未来扩展功能
 
+- [ ] 微信云开发集成（实现数据分享）
 - [ ] 音乐计划系统（Plan/Schedule）
 - [ ] 演出系统（Performance System）
 - [ ] 音乐成长曲线可视化
-- [ ] 录音/视频上传功能
-- [ ] 云开发数据同步
-- [ ] 多用户支持
 - [ ] 数据导出功能
+- [ ] 多设备同步
 
 ## 📄 数据模型
 
@@ -151,6 +182,8 @@ NovaW_Music/
   practice_history: array,      // 练习历史
   progress_percentage: number,  // 进度百分比
   recording_links: string[],    // 录音链接
+  demo_videos: array,           // 演示视频
+  sheet_music: array,           // 乐谱
   expected_release_date: string,// 预期发布日期
   is_private: boolean,          // 是否私密
   created_at: string,           // 创建时间
@@ -158,16 +191,34 @@ NovaW_Music/
 }
 ```
 
+### 动态（Post）
+
+```javascript
+{
+  post_id: string,             // 唯一ID
+  type: string,                // 类型：song_coming/song_released/show
+  title: string,               // 标题
+  content: string,             // 内容
+  song_id: string,             // 关联歌曲ID
+  song_title: string,         // 歌曲名
+  date: string,                // 日期
+  location: string,            // 地点
+  images: string[],           // 图片数组
+  created_at: string,          // 创建时间
+  updated_at: string           // 更新时间
+}
+```
+
 ### 练习记录（Practice Log）
 
 ```javascript
 {
-  log_id: string,               // 唯一ID
-  song_id: string,              // 歌曲ID
+  log_id: string,              // 唯一ID
+  song_id: string,             // 歌曲ID
   date: string,                 // 日期
-  duration_minute: number,      // 时长（分钟）
-  notes: string,                // 备注
-  created_at: string            // 创建时间
+  duration_minute: number,     // 时长（分钟）
+  notes: string,               // 备注
+  created_at: string           // 创建时间
 }
 ```
 
@@ -189,4 +240,3 @@ MIT License
 ---
 
 **MusicOS·Grigg** - 让音乐之路像工程一样可控、可衡量、可成长 🎵
-
