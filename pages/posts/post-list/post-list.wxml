@@ -1,82 +1,102 @@
 <!--pages/posts/post-list/post-list.wxml-->
-<view class="container">
-  <!-- 动态列表 -->
-  <view class="posts-list">
+<view class="container timeline-container">
+  <!-- 时间线样式动态列表 -->
+  <view class="timeline">
     <view 
-      class="post-card" 
+      class="timeline-item" 
       wx:for="{{posts}}" 
       wx:key="post_id"
     >
-      <!-- 动态类型标签 -->
-      <view class="post-header">
-        <view class="post-type-badge post-type-{{item.type}}">
-          {{item.type === 'song_coming' ? '🎵 新歌预告' : item.type === 'song_released' ? '🎉 新歌发布' : '🎤 演出信息'}}
-        </view>
-        <view class="post-actions" wx:if="{{!readonly}}">
-          <text class="action-btn" bindtap="editPost" data-post-id="{{item.post_id}}">编辑</text>
-          <text class="action-btn delete" bindtap="deletePost" data-post-id="{{item.post_id}}">删除</text>
-        </view>
-      </view>
-
-      <!-- 动态内容 -->
-      <view class="post-content">
-        <view class="post-title">{{item.title}}</view>
-        <view class="post-text" wx:if="{{item.content}}">{{item.content}}</view>
-        
-        <!-- 歌曲信息 -->
-        <view class="post-song-info" wx:if="{{item.song_title}}">
-          <text class="song-label">歌曲：</text>
-          <text class="song-name">{{item.song_title}}</text>
-        </view>
-
-        <!-- 日期和地点 -->
-        <view class="post-meta">
-          <view class="meta-item" wx:if="{{item.date}}">
-            <text class="meta-icon">📅</text>
-            <text class="meta-text">{{formatPostDate(item.date)}}</text>
+      <!-- 时间线节点 -->
+      <view class="timeline-dot"></view>
+      <view class="timeline-line" wx:if="{{index < posts.length - 1}}"></view>
+      
+      <!-- 动态卡片 -->
+      <view class="post-card post-card-{{item.type}}">
+        <!-- 类型徽章和时间 -->
+        <view class="post-header">
+          <view class="post-type-badge post-type-{{item.type}}">
+            {{item.type === 'song_coming' ? '🎵 新歌预告' : item.type === 'song_released' ? '🎉 新歌发布' : '🎤 演出信息'}}
           </view>
-          <view class="meta-item" wx:if="{{item.location}}">
-            <text class="meta-icon">📍</text>
-            <text class="meta-text">{{item.location}}</text>
+          <text class="post-time">{{formatDate(item.created_at, 'MM-DD HH:mm')}}</text>
+        </view>
+
+        <!-- 大图展示（如果有） -->
+        <view class="post-hero-image" wx:if="{{item.images && item.images.length > 0}}">
+          <image 
+            class="hero-image" 
+            src="{{item.images[0]}}" 
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{item.images[0]}}"
+            data-urls="{{item.images}}"
+          ></image>
+        </view>
+
+        <!-- 动态内容 -->
+        <view class="post-content">
+          <view class="post-title">{{item.title}}</view>
+          <view class="post-text" wx:if="{{item.content}}">{{item.content}}</view>
+          
+          <!-- 歌曲信息卡片 -->
+          <view class="post-song-card" wx:if="{{item.song_title}}">
+            <view class="song-card-icon">🎵</view>
+            <view class="song-card-info">
+              <text class="song-card-label">关联歌曲</text>
+              <text class="song-card-name">{{item.song_title}}</text>
+            </view>
+          </view>
+
+          <!-- 日期和地点信息 -->
+          <view class="post-info-grid" wx:if="{{item.date || item.location}}">
+            <view class="info-item" wx:if="{{item.date}}">
+              <text class="info-icon">📅</text>
+              <text class="info-text">{{formatPostDate(item.date)}}</text>
+            </view>
+            <view class="info-item" wx:if="{{item.location}}">
+              <text class="info-icon">📍</text>
+              <text class="info-text">{{item.location}}</text>
+            </view>
           </view>
         </view>
-      </view>
 
-      <!-- 图片 -->
-      <view class="post-images" wx:if="{{item.images && item.images.length > 0}}">
-        <image 
-          class="post-image" 
-          wx:for="{{item.images}}" 
-          wx:key="*this"
-          src="{{item}}" 
-          mode="aspectFill"
-          bindtap="previewImage"
-          data-url="{{item}}"
-          data-urls="{{item.images}}"
-        ></image>
-      </view>
+        <!-- 多图展示 -->
+        <view class="post-images-grid" wx:if="{{item.images && item.images.length > 1}}">
+          <image 
+            class="grid-image" 
+            wx:for="{{item.images}}" 
+            wx:for-item="img"
+            wx:key="*this"
+            wx:for-index="imgIndex"
+            src="{{img}}" 
+            mode="aspectFill"
+            bindtap="previewImage"
+            data-url="{{img}}"
+            data-urls="{{item.images}}"
+          ></image>
+        </view>
 
-      <!-- 发布时间 -->
-      <view class="post-footer">
-        <text class="post-time">{{formatDate(item.created_at, 'YYYY-MM-DD HH:mm')}}</text>
+        <!-- 编辑按钮（仅主人可见，悬浮显示） -->
+        <view class="post-actions-float" wx:if="{{!readonly}}">
+          <view class="action-menu">
+            <text class="action-icon" bindtap="editPost" data-post-id="{{item.post_id}}">✏️</text>
+            <text class="action-icon delete" bindtap="deletePost" data-post-id="{{item.post_id}}">🗑️</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{posts.length === 0}}">
-    <text class="empty-text">还没有动态，发布第一条吧！</text>
+  <view class="empty-state showcase-empty" wx:if="{{posts.length === 0}}">
+    <view class="empty-icon">📭</view>
+    <text class="empty-text">还没有动态</text>
+    <text class="empty-hint">期待第一条动态的到来</text>
   </view>
 
-  <!-- 发布按钮 -->
-  <view class="fab" bindtap="createPost" wx:if="{{!readonly}}">
-    <text class="fab-icon">+</text>
-  </view>
-
-  <!-- 只读模式提示 -->
-  <view class="readonly-notice" wx:if="{{readonly}}">
-    <text class="notice-icon">👁</text>
-    <text class="notice-text">只读模式 - 仅可查看，无法修改</text>
+  <!-- 发布按钮（仅主人可见） -->
+  <view class="fab fab-showcase" bindtap="createPost" wx:if="{{!readonly}}">
+    <text class="fab-icon">✏️</text>
   </view>
 </view>
 

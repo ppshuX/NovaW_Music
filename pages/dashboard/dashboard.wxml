@@ -1,25 +1,25 @@
 <!--pages/dashboard/dashboard.wxml-->
 <view class="container">
   <!-- 今日练习情况 -->
-  <view class="card">
-    <view class="section-title">今日练习</view>
-    <view class="stats-grid">
-      <view class="stat-item">
-        <view class="stat-value">{{todayStats.totalMinutes}}</view>
+  <view class="card stats-showcase">
+    <view class="section-title showcase-title">今日练习</view>
+    <view class="stats-grid showcase-stats">
+      <view class="stat-item showcase-stat">
+        <view class="stat-value showcase-value">{{todayStats.totalMinutes}}</view>
         <view class="stat-label">分钟</view>
       </view>
-      <view class="stat-item">
-        <view class="stat-value">{{todayStats.songCount}}</view>
+      <view class="stat-item showcase-stat">
+        <view class="stat-value showcase-value">{{todayStats.songCount}}</view>
         <view class="stat-label">首歌曲</view>
       </view>
-      <view class="stat-item">
-        <view class="stat-value">{{todayStats.logCount}}</view>
+      <view class="stat-item showcase-stat">
+        <view class="stat-value showcase-value">{{todayStats.logCount}}</view>
         <view class="stat-label">次练习</view>
       </view>
     </view>
-    <view class="action-buttons-row">
-      <button class="btn btn-primary" bindtap="addPracticeLog" wx:if="{{isOwner}}">记录练习</button>
-      <button class="btn btn-secondary" bindtap="viewPracticeLogs">查看记录</button>
+    <view class="action-buttons-row" wx:if="{{isOwner}}">
+      <button class="btn btn-primary btn-showcase" bindtap="addPracticeLog">记录练习</button>
+      <button class="btn btn-secondary btn-showcase" bindtap="viewPracticeLogs">查看记录</button>
     </view>
   </view>
 

@@ -1,4 +1,42 @@
 /* pages/dashboard/dashboard.wxss */
+
+.stats-showcase {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(15, 52, 96, 0.3);
+}
+
+.showcase-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  color: #eaeaea;
+}
+
+.showcase-stats {
+  margin-bottom: 30rpx;
+}
+
+.showcase-stat {
+  padding: 20rpx;
+  background: rgba(15, 52, 96, 0.2);
+  border-radius: 16rpx;
+  border: 1px solid rgba(15, 52, 96, 0.3);
+}
+
+.showcase-value {
+  font-size: 56rpx;
+  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-showcase {
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  padding: 20rpx 40rpx;
+  box-shadow: 0 4rpx 15rpx rgba(15, 52, 96, 0.3);
+}
 .container {
   padding: 30rpx;
 }

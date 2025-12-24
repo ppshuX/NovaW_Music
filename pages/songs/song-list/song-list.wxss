@@ -179,23 +179,28 @@
   color: #8b8b8b;
 }
 
-.fab {
+.fab-showcase {
   position: fixed;
   right: 40rpx;
   bottom: 120rpx;
-  width: 100rpx;
-  height: 100rpx;
+  width: 110rpx;
+  height: 110rpx;
   background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 20rpx rgba(15, 52, 96, 0.4);
+  box-shadow: 0 12rpx 30rpx rgba(15, 52, 96, 0.5);
   z-index: 100;
+  transition: transform 0.3s;
+}
+
+.fab-showcase:active {
+  transform: scale(0.9);
 }
 
 .fab-icon {
-  font-size: 60rpx;
+  font-size: 50rpx;
   color: #ffffff;
   font-weight: 300;
 }
