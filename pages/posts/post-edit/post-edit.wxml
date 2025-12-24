@@ -12,6 +12,7 @@
       <view class="section-label">
         <text class="label-text">动态类型</text>
         <text class="label-required">*</text>
+        <text class="category-hint" wx:if="{{currentCategory}}">（{{currentCategory}}）</text>
       </view>
       <picker 
         mode="selector" 
@@ -21,7 +22,10 @@
         bindchange="onTypeChange"
       >
         <view class="picker-wrapper picker-enhanced">
-          <text class="picker-text">{{currentTypeLabel}}</text>
+          <view class="picker-content">
+            <text class="picker-text">{{currentTypeLabel}}</text>
+            <text class="picker-category" wx:if="{{currentCategory}}">{{currentCategory}}</text>
+          </view>
           <text class="picker-arrow">›</text>
         </view>
       </picker>

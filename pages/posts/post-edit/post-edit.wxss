@@ -64,6 +64,20 @@
   font-weight: normal;
 }
 
+.category-hint {
+  font-size: 24rpx;
+  color: #533483;
+  margin-left: 8rpx;
+  font-weight: 500;
+}
+
+.date-tip {
+  font-size: 22rpx;
+  color: #8b8b8b;
+  margin-left: 8rpx;
+  font-style: italic;
+}
+
 /* 输入框增强样式 */
 .input-wrapper {
   position: relative;
@@ -158,15 +172,28 @@
   align-items: center;
 }
 
+.picker-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
 .picker-text {
   font-size: 30rpx;
   color: #eaeaea;
-  flex: 1;
   word-wrap: break-word;
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 4rpx;
+}
+
+.picker-category {
+  font-size: 22rpx;
+  color: #533483;
+  font-weight: 500;
 }
 
 .picker-text:empty::before {

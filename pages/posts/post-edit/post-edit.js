@@ -21,11 +21,12 @@ Page({
     },
     songs: [],
     typeOptions: [
-      { value: 'song_coming', label: '新歌预告' },
-      { value: 'song_released', label: '新歌发布' },
-      { value: 'show', label: '演出信息' }
+      { value: 'song_coming', label: '新歌预告', category: '练习中' },
+      { value: 'song_released', label: '新歌发布', category: '练习中' },
+      { value: 'show', label: '演出信息', category: '小演出' }
     ],
-    currentTypeLabel: '新歌预告'
+    currentTypeLabel: '新歌预告',
+    currentCategory: '练习中'
   },
 
   async onLoad(options) {
@@ -74,13 +75,16 @@ Page({
     if (post) {
       // 计算类型索引
       const typeIndex = this.data.typeOptions.findIndex(t => t.value === post.type)
-      const typeLabel = this.data.typeOptions[typeIndex]?.label || '新歌预告'
+      const option = this.data.typeOptions[typeIndex >= 0 ? typeIndex : 0]
+      const typeLabel = option?.label || '新歌预告'
+      const category = option?.category || ''
       
       // 计算歌曲索引（稍后在loadSongs后更新）
       this.setData({
         postType: post.type,
         postTypeIndex: typeIndex >= 0 ? typeIndex : 0,
         currentTypeLabel: typeLabel,
+        currentCategory: category,
         formData: {
           title: post.title || '',
           content: post.content || '',
@@ -100,12 +104,15 @@ Page({
   // 选择动态类型
   onTypeChange(e) {
     const index = parseInt(e.detail.value)
-    const type = this.data.typeOptions[index].value
-    const label = this.data.typeOptions[index].label
+    const option = this.data.typeOptions[index]
+    const type = option.value
+    const label = option.label
+    const category = option.category || ''
     this.setData({
       postType: type,
       postTypeIndex: index,
-      currentTypeLabel: label
+      currentTypeLabel: label,
+      currentCategory: category
     })
   },
 
