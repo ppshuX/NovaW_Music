@@ -48,6 +48,12 @@ Page({
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 10) // 只显示最近10条
 
+    // 计算进度（如果还没有）
+    if (!song.progress_percentage && song.sections) {
+      const { calculateProgress } = require('../../../utils/unified-storage.js')
+      song.progress_percentage = calculateProgress(song)
+    }
+
     this.setData({
       song,
       practiceLogs
@@ -145,8 +151,9 @@ Page({
 
   // 查看所有练习记录
   viewAllLogs() {
+    const songId = this.data.song.song_id || this.data.song._id
     wx.navigateTo({
-      url: `/pages/practice/practice-log/practice-log?songId=${this.data.song.song_id}&viewMode=all`
+      url: `/pages/practice/practice-log/practice-log?songId=${songId}&viewMode=all`
     })
   },
 
