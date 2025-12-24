@@ -39,11 +39,11 @@ Page({
     })
   },
 
-  // 跳转到歌曲详情（只读模式，可以后续扩展）
+  // 跳转到歌曲详情（只读模式）
   goToSongDetail(e) {
     const songId = e.currentTarget.dataset.songId
     wx.navigateTo({
-      url: `/pages/songs/song-detail/song-detail?id=${songId}`
+      url: `/pages/songs/song-detail/song-detail?id=${songId}&readonly=true`
     })
   },
 

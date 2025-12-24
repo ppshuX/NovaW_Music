@@ -12,7 +12,7 @@
         <view class="post-type-badge post-type-{{item.type}}">
           {{item.type === 'song_coming' ? '🎵 新歌预告' : item.type === 'song_released' ? '🎉 新歌发布' : '🎤 演出信息'}}
         </view>
-        <view class="post-actions">
+        <view class="post-actions" wx:if="{{!readonly}}">
           <text class="action-btn" bindtap="editPost" data-post-id="{{item.post_id}}">编辑</text>
           <text class="action-btn delete" bindtap="deletePost" data-post-id="{{item.post_id}}">删除</text>
         </view>
@@ -69,8 +69,14 @@
   </view>
 
   <!-- 发布按钮 -->
-  <view class="fab" bindtap="createPost">
+  <view class="fab" bindtap="createPost" wx:if="{{!readonly}}">
     <text class="fab-icon">+</text>
+  </view>
+
+  <!-- 只读模式提示 -->
+  <view class="readonly-notice" wx:if="{{readonly}}">
+    <text class="notice-icon">👁</text>
+    <text class="notice-text">只读模式 - 仅可查看，无法修改</text>
   </view>
 </view>
 

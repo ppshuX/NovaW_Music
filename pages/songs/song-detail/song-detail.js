@@ -7,12 +7,17 @@ Page({
   data: {
     song: null,
     practiceLogs: [],
-    showEditMenu: false
+    showEditMenu: false,
+    readonly: false  // 只读模式
   },
 
   onLoad(options) {
     const songId = options.id
+    const readonly = options.readonly === 'true' || options.readonly === true
     if (songId) {
+      this.setData({
+        readonly: readonly
+      })
       this.loadSongDetail(songId)
     }
   },
@@ -61,6 +66,10 @@ Page({
 
   // 切换段落掌握状态
   toggleSection(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法修改', 'none')
+      return
+    }
     const section = e.currentTarget.dataset.section
     const song = this.data.song
     const sections = { ...song.sections }
@@ -72,6 +81,10 @@ Page({
 
   // 修改熟练度
   changeProficiency(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法修改', 'none')
+      return
+    }
     const proficiency = parseInt(e.currentTarget.dataset.rating)
     const song = this.data.song
     
@@ -81,6 +94,10 @@ Page({
 
   // 修改状态
   changeStatus(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法修改', 'none')
+      return
+    }
     const status = e.currentTarget.dataset.status
     const song = this.data.song
     
@@ -97,6 +114,10 @@ Page({
 
   // 上传演示视频
   async uploadVideo() {
+    if (this.data.readonly) {
+      showToast('只读模式，无法上传', 'none')
+      return
+    }
     try {
       showLoading('上传中...')
       const videoInfo = await chooseAndUploadVideo({
@@ -121,6 +142,10 @@ Page({
 
   // 删除演示视频
   async deleteVideo(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法删除', 'none')
+      return
+    }
     const index = e.currentTarget.dataset.index
     const song = this.data.song
     const videos = [...(song.demo_videos || [])]
@@ -152,6 +177,10 @@ Page({
 
   // 上传乐谱
   async uploadSheetMusic() {
+    if (this.data.readonly) {
+      showToast('只读模式，无法上传', 'none')
+      return
+    }
     try {
       showLoading('上传中...')
       const imageInfo = await chooseAndUploadImage({
@@ -176,6 +205,10 @@ Page({
 
   // 删除乐谱
   async deleteSheetMusic(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法删除', 'none')
+      return
+    }
     const index = e.currentTarget.dataset.index
     const song = this.data.song
     const sheets = [...(song.sheet_music || [])]

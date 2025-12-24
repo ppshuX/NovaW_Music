@@ -171,3 +171,23 @@
   font-weight: 300;
 }
 
+.readonly-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  padding: 20rpx;
+  background-color: rgba(15, 52, 96, 0.3);
+  border-radius: 10rpx;
+  margin: 30rpx 0;
+}
+
+.notice-icon {
+  font-size: 32rpx;
+}
+
+.notice-text {
+  font-size: 26rpx;
+  color: #8b8b8b;
+}
+

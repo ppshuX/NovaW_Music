@@ -5,10 +5,15 @@ import { formatDate, showToast, showModal } from '../../../utils/util.js'
 
 Page({
   data: {
-    posts: []
+    posts: [],
+    readonly: false  // 只读模式
   },
 
-  onLoad() {
+  onLoad(options) {
+    const readonly = options.readonly === 'true' || options.readonly === true
+    this.setData({
+      readonly: readonly
+    })
     this.loadPosts()
   },
 
@@ -29,6 +34,10 @@ Page({
 
   // 发布动态
   createPost() {
+    if (this.data.readonly) {
+      showToast('只读模式，无法发布', 'none')
+      return
+    }
     wx.navigateTo({
       url: '/pages/posts/post-edit/post-edit'
     })
@@ -36,6 +45,10 @@ Page({
 
   // 编辑动态
   editPost(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法编辑', 'none')
+      return
+    }
     const postId = e.currentTarget.dataset.postId
     wx.navigateTo({
       url: `/pages/posts/post-edit/post-edit?id=${postId}`
@@ -44,6 +57,10 @@ Page({
 
   // 删除动态
   async deletePost(e) {
+    if (this.data.readonly) {
+      showToast('只读模式，无法删除', 'none')
+      return
+    }
     const postId = e.currentTarget.dataset.postId
     const post = this.data.posts.find(p => p.post_id === postId)
     

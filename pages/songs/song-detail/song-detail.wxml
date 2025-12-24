@@ -24,7 +24,7 @@
     <!-- 熟练度 -->
     <view class="proficiency-section">
       <view class="section-label">熟练度</view>
-      <view class="stars">
+      <view class="stars {{readonly ? 'readonly' : ''}}">
         <text 
           class="star {{index <= song.proficiency ? '' : 'empty'}}" 
           wx:for="{{[1,2,3,4,5]}}" 
@@ -65,7 +65,7 @@
     <view class="section-title">段落掌握</view>
     <view class="sections-grid">
       <view 
-        class="section-item {{song.sections.intro ? 'mastered' : ''}}"
+        class="section-item {{song.sections.intro ? 'mastered' : ''}} {{readonly ? 'readonly' : ''}}"
         bindtap="toggleSection"
         data-section="intro"
       >
@@ -73,7 +73,7 @@
         <text class="section-status">{{song.sections.intro ? '✓' : '○'}}</text>
       </view>
       <view 
-        class="section-item {{song.sections.verse ? 'mastered' : ''}}"
+        class="section-item {{song.sections.verse ? 'mastered' : ''}} {{readonly ? 'readonly' : ''}}"
         bindtap="toggleSection"
         data-section="verse"
       >
@@ -81,7 +81,7 @@
         <text class="section-status">{{song.sections.verse ? '✓' : '○'}}</text>
       </view>
       <view 
-        class="section-item {{song.sections.chorus ? 'mastered' : ''}}"
+        class="section-item {{song.sections.chorus ? 'mastered' : ''}} {{readonly ? 'readonly' : ''}}"
         bindtap="toggleSection"
         data-section="chorus"
       >
@@ -89,7 +89,7 @@
         <text class="section-status">{{song.sections.chorus ? '✓' : '○'}}</text>
       </view>
       <view 
-        class="section-item {{song.sections.bridge ? 'mastered' : ''}}"
+        class="section-item {{song.sections.bridge ? 'mastered' : ''}} {{readonly ? 'readonly' : ''}}"
         bindtap="toggleSection"
         data-section="bridge"
       >
@@ -112,28 +112,32 @@
     <view class="section-title">状态</view>
     <view class="status-buttons">
       <button 
-        class="status-btn {{song.status === '未开始' ? 'active' : ''}}"
+        class="status-btn {{song.status === '未开始' ? 'active' : ''}} {{readonly ? 'readonly' : ''}}"
         data-status="未开始"
         bindtap="changeStatus"
         size="mini"
+        disabled="{{readonly}}"
       >未开始</button>
       <button 
-        class="status-btn {{song.status === '练习中' ? 'active' : ''}}"
+        class="status-btn {{song.status === '练习中' ? 'active' : ''}} {{readonly ? 'readonly' : ''}}"
         data-status="练习中"
         bindtap="changeStatus"
         size="mini"
+        disabled="{{readonly}}"
       >练习中</button>
       <button 
-        class="status-btn {{song.status === '可录制' ? 'active' : ''}}"
+        class="status-btn {{song.status === '可录制' ? 'active' : ''}} {{readonly ? 'readonly' : ''}}"
         data-status="可录制"
         bindtap="changeStatus"
         size="mini"
+        disabled="{{readonly}}"
       >可录制</button>
       <button 
-        class="status-btn {{song.status === '已完成' ? 'active' : ''}}"
+        class="status-btn {{song.status === '已完成' ? 'active' : ''}} {{readonly ? 'readonly' : ''}}"
         data-status="已完成"
         bindtap="changeStatus"
         size="mini"
+        disabled="{{readonly}}"
       >已完成</button>
     </view>
   </view>
@@ -154,14 +158,14 @@
     <view class="empty-logs" wx:else>
       <text>还没有练习记录</text>
     </view>
-    <button class="btn btn-primary" bindtap="addPracticeLog">添加练习记录</button>
+    <button class="btn btn-primary" bindtap="addPracticeLog" wx:if="{{!readonly}}">添加练习记录</button>
   </view>
 
   <!-- 演示视频 -->
   <view class="card">
     <view class="section-title">
       <text>演示视频</text>
-      <button class="btn-icon" size="mini" bindtap="uploadVideo">+ 上传</button>
+      <button class="btn-icon" size="mini" bindtap="uploadVideo" wx:if="{{!readonly}}">+ 上传</button>
     </view>
     <view class="media-list" wx:if="{{song.demo_videos && song.demo_videos.length > 0}}">
       <view class="media-item video-item" wx:for="{{song.demo_videos}}" wx:key="url" wx:for-index="videoIndex">
@@ -178,7 +182,7 @@
             <text class="media-duration" wx:if="{{item.duration}}">{{item.duration}}秒</text>
           </view>
         </view>
-        <view class="media-actions">
+        <view class="media-actions" wx:if="{{!readonly}}">
           <text class="delete-btn" bindtap="deleteVideo" data-index="{{videoIndex}}">删除</text>
         </view>
       </view>
@@ -192,7 +196,7 @@
   <view class="card">
     <view class="section-title">
       <text>乐谱</text>
-      <button class="btn-icon" size="mini" bindtap="uploadSheetMusic">+ 上传</button>
+      <button class="btn-icon" size="mini" bindtap="uploadSheetMusic" wx:if="{{!readonly}}">+ 上传</button>
     </view>
     <view class="media-list" wx:if="{{song.sheet_music && song.sheet_music.length > 0}}">
       <view class="media-item sheet-item" wx:for="{{song.sheet_music}}" wx:key="url" wx:for-index="sheetIndex">
@@ -205,7 +209,7 @@
             <text class="media-date">{{item.date}}</text>
           </view>
         </view>
-        <view class="media-actions">
+        <view class="media-actions" wx:if="{{!readonly}}">
           <text class="delete-btn" bindtap="deleteSheetMusic" data-index="{{sheetIndex}}">删除</text>
         </view>
       </view>
@@ -222,9 +226,15 @@
   </view>
 
   <!-- 操作按钮 -->
-  <view class="action-buttons">
+  <view class="action-buttons" wx:if="{{!readonly}}">
     <button class="btn btn-secondary" bindtap="editSong">编辑歌曲</button>
     <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
+  </view>
+  
+  <!-- 只读模式提示 -->
+  <view class="readonly-notice" wx:if="{{readonly}}">
+    <text class="notice-icon">👁</text>
+    <text class="notice-text">只读模式 - 仅可查看，无法修改</text>
   </view>
 </view>
 
