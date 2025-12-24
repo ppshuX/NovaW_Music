@@ -1,6 +1,7 @@
 // pages/songs/song-detail/song-detail.js
 import { getSongById, getPracticeLogs, updateSong } from '../../../utils/storage.js'
-import { formatDate, formatDuration, getStatusColor, showToast } from '../../../utils/util.js'
+import { formatDate, formatDuration, getStatusColor, showToast, showLoading, hideLoading } from '../../../utils/util.js'
+import { chooseAndUploadVideo, chooseAndUploadImage, deleteFile, previewImage, playVideo } from '../../../utils/file-upload.js'
 
 Page({
   data: {
@@ -92,6 +93,119 @@ Page({
     wx.navigateTo({
       url: `/pages/practice/practice-log/practice-log?songId=${this.data.song.song_id}&viewMode=all`
     })
+  },
+
+  // 上传演示视频
+  async uploadVideo() {
+    try {
+      showLoading('上传中...')
+      const videoInfo = await chooseAndUploadVideo({
+        name: `${this.data.song.title}_演示视频`
+      })
+      
+      const song = this.data.song
+      const videos = song.demo_videos || []
+      videos.push(videoInfo)
+      
+      updateSong(song.song_id, { demo_videos: videos })
+      hideLoading()
+      showToast('上传成功', 'success')
+      this.loadSongDetail(song.song_id)
+    } catch (err) {
+      hideLoading()
+      if (err.message !== '未选择视频') {
+        showToast('上传失败：' + err.message, 'none')
+      }
+    }
+  },
+
+  // 删除演示视频
+  async deleteVideo(e) {
+    const index = e.currentTarget.dataset.index
+    const song = this.data.song
+    const videos = [...(song.demo_videos || [])]
+    const video = videos[index]
+    
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这个演示视频吗？',
+      success: async (res) => {
+        if (res.confirm) {
+          // 删除文件
+          await deleteFile(video.url)
+          
+          // 从列表中移除
+          videos.splice(index, 1)
+          updateSong(song.song_id, { demo_videos: videos })
+          showToast('删除成功', 'success')
+          this.loadSongDetail(song.song_id)
+        }
+      }
+    })
+  },
+
+  // 播放视频
+  playVideo(e) {
+    const url = e.currentTarget.dataset.url
+    playVideo(url)
+  },
+
+  // 上传乐谱
+  async uploadSheetMusic() {
+    try {
+      showLoading('上传中...')
+      const imageInfo = await chooseAndUploadImage({
+        name: `${this.data.song.title}_乐谱`
+      })
+      
+      const song = this.data.song
+      const sheets = song.sheet_music || []
+      sheets.push(imageInfo)
+      
+      updateSong(song.song_id, { sheet_music: sheets })
+      hideLoading()
+      showToast('上传成功', 'success')
+      this.loadSongDetail(song.song_id)
+    } catch (err) {
+      hideLoading()
+      if (err.message !== '未选择图片') {
+        showToast('上传失败：' + err.message, 'none')
+      }
+    }
+  },
+
+  // 删除乐谱
+  async deleteSheetMusic(e) {
+    const index = e.currentTarget.dataset.index
+    const song = this.data.song
+    const sheets = [...(song.sheet_music || [])]
+    const sheet = sheets[index]
+    
+    wx.showModal({
+      title: '确认删除',
+      content: '确定要删除这个乐谱吗？',
+      success: async (res) => {
+        if (res.confirm) {
+          // 删除文件
+          await deleteFile(sheet.url)
+          
+          // 从列表中移除
+          sheets.splice(index, 1)
+          updateSong(song.song_id, { sheet_music: sheets })
+          showToast('删除成功', 'success')
+          this.loadSongDetail(song.song_id)
+        }
+      }
+    })
+  },
+
+  // 预览乐谱
+  previewSheetMusic(e) {
+    const index = e.currentTarget.dataset.index
+    const song = this.data.song
+    const sheets = song.sheet_music || []
+    const urls = sheets.map(s => s.url)
+    previewImage(sheets[index].url, urls)
   }
 })
 

@@ -67,6 +67,8 @@ export function importSongs(songsData) {
       practice_history: [],
       progress_percentage: 100, // 已完成歌曲默认100%
       recording_links: songData.recording_links || [],
+      demo_videos: songData.demo_videos || [],
+      sheet_music: songData.sheet_music || [],
       expected_release_date: formattedDate,
       is_private: songData.is_private || false,
       created_at: formattedDate ? new Date(formattedDate).toISOString() : new Date().toISOString(),

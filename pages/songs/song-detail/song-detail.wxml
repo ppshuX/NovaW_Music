@@ -157,6 +157,62 @@
     <button class="btn btn-primary" bindtap="addPracticeLog">添加练习记录</button>
   </view>
 
+  <!-- 演示视频 -->
+  <view class="card">
+    <view class="section-title">
+      <text>演示视频</text>
+      <button class="btn-icon" size="mini" bindtap="uploadVideo">+ 上传</button>
+    </view>
+    <view class="media-list" wx:if="{{song.demo_videos && song.demo_videos.length > 0}}">
+      <view class="media-item video-item" wx:for="{{song.demo_videos}}" wx:key="url" wx:for-index="videoIndex">
+        <view class="media-preview" bindtap="playVideo" data-url="{{item.url}}">
+          <image class="video-thumbnail" src="/assets/icons/video-placeholder.png" mode="aspectFill"></image>
+          <view class="play-icon">▶</view>
+        </view>
+        <view class="media-info">
+          <view class="media-name">{{item.name}}</view>
+          <view class="media-meta">
+            <text class="media-date">{{item.date}}</text>
+            <text class="media-duration" wx:if="{{item.duration}}">{{item.duration}}秒</text>
+          </view>
+        </view>
+        <view class="media-actions">
+          <text class="delete-btn" bindtap="deleteVideo" data-index="{{videoIndex}}">删除</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty-media" wx:else>
+      <text>还没有演示视频</text>
+    </view>
+  </view>
+
+  <!-- 乐谱 -->
+  <view class="card">
+    <view class="section-title">
+      <text>乐谱</text>
+      <button class="btn-icon" size="mini" bindtap="uploadSheetMusic">+ 上传</button>
+    </view>
+    <view class="media-list" wx:if="{{song.sheet_music && song.sheet_music.length > 0}}">
+      <view class="media-item sheet-item" wx:for="{{song.sheet_music}}" wx:key="url" wx:for-index="sheetIndex">
+        <view class="sheet-preview" bindtap="previewSheetMusic" data-index="{{sheetIndex}}">
+          <image class="sheet-thumbnail" src="{{item.url}}" mode="aspectFill"></image>
+        </view>
+        <view class="media-info">
+          <view class="media-name">{{item.name}}</view>
+          <view class="media-meta">
+            <text class="media-date">{{item.date}}</text>
+          </view>
+        </view>
+        <view class="media-actions">
+          <text class="delete-btn" bindtap="deleteSheetMusic" data-index="{{sheetIndex}}">删除</text>
+        </view>
+      </view>
+    </view>
+    <view class="empty-media" wx:else>
+      <text>还没有乐谱</text>
+    </view>
+  </view>
+
   <!-- 备注 -->
   <view class="card" wx:if="{{song.notes}}">
     <view class="section-title">备注</view>

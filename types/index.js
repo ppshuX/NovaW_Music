@@ -48,6 +48,8 @@ export const SongSchema = {
   practice_history: [],  // 练习历史 [{date, duration_minute, notes}]
   progress_percentage: 0, // 进度百分比
   recording_links: [],    // 录音链接 [url]
+  demo_videos: [],         // 演示视频 [{url, name, date, type}]
+  sheet_music: [],         // 乐谱 [{url, name, date, type}]
   expected_release_date: '', // 预期发布日期
   created_at: '',        // 创建时间
   updated_at: '',        // 更新时间

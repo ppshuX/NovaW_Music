@@ -1,0 +1,12 @@
+<!--pages/media/video-player/video-player.wxml-->
+<view class="container">
+  <video
+    id="videoPlayer"
+    src="{{videoUrl}}"
+    controls
+    autoplay
+    class="video-player"
+    binderror="onError"
+  ></video>
+</view>
+
