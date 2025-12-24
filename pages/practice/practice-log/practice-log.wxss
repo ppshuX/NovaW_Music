@@ -1,0 +1,69 @@
+/* pages/practice/practice-log/practice-log.wxss */
+.logs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.log-card {
+  padding: 25rpx;
+  background-color: #16213e;
+  border-radius: 15rpx;
+  border-left: 4rpx solid #0f3460;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15rpx;
+}
+
+.log-song-info {
+  flex: 1;
+}
+
+.log-song-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.log-song-artist {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.log-date {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.log-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.log-duration {
+  font-size: 26rpx;
+  color: #0f3460;
+  font-weight: bold;
+}
+
+.log-notes {
+  font-size: 26rpx;
+  color: #8b8b8b;
+  line-height: 1.6;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80rpx 30rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}
+

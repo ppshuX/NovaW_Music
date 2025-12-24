@@ -1,0 +1,83 @@
+<!--pages/practice/practice-log/practice-log.wxml-->
+<view class="container">
+  <block wx:if="{{viewMode === 'add'}}">
+    <!-- 添加练习记录 -->
+    <view class="card">
+      <view class="form-item">
+        <view class="form-label">选择歌曲 *</view>
+        <picker 
+          mode="selector" 
+          range="{{songs}}"
+          range-key="title"
+          value="{{selectedSongIndex}}"
+          bindchange="onSongChange"
+        >
+          <view class="picker">{{selectedSongTitle}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">练习日期 *</view>
+        <picker 
+          mode="date" 
+          value="{{formData.date}}"
+          bindchange="onDateChange"
+        >
+          <view class="picker">{{formData.date || '选择日期'}}</view>
+        </picker>
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">练习时长（分钟） *</view>
+        <input 
+          class="input" 
+          type="number"
+          placeholder="请输入练习时长"
+          value="{{formData.duration_minute}}"
+          bindinput="onDurationInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <view class="form-label">备注</view>
+        <textarea 
+          class="textarea" 
+          placeholder="记录本次练习的要点、感受..."
+          value="{{formData.notes}}"
+          bindinput="onNotesInput"
+          maxlength="500"
+        />
+      </view>
+    </view>
+
+    <view class="action-buttons">
+      <button class="btn btn-primary" bindtap="save">保存记录</button>
+    </view>
+  </block>
+
+  <block wx:else>
+    <!-- 查看所有练习记录 -->
+    <view class="card">
+      <view class="section-title">练习记录</view>
+      <view class="logs-list" wx:if="{{practiceLogs.length > 0}}">
+        <view class="log-card" wx:for="{{practiceLogs}}" wx:key="log_id">
+          <view class="log-header">
+            <view class="log-song-info">
+              <view class="log-song-title">{{item.songTitle}}</view>
+              <view class="log-song-artist">{{item.songArtist}}</view>
+            </view>
+            <view class="log-date">{{item.date}}</view>
+          </view>
+          <view class="log-content">
+            <view class="log-duration">练习时长：{{item.duration_minute}}分钟</view>
+            <view class="log-notes" wx:if="{{item.notes}}">{{item.notes}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="empty-state" wx:else>
+        <text class="empty-text">还没有练习记录</text>
+      </view>
+    </view>
+  </block>
+</view>
+

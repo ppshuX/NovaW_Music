@@ -1,0 +1,156 @@
+/* pages/dashboard/dashboard.wxss */
+.container {
+  padding: 30rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.more-link {
+  font-size: 28rpx;
+  color: #0f3460;
+  font-weight: normal;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #0f3460;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.week-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.week-stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.week-label {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}
+
+.week-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #0f3460;
+}
+
+.song-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.song-item {
+  padding: 20rpx;
+  background-color: #16213e;
+  border-radius: 15rpx;
+  border-left: 4rpx solid #0f3460;
+}
+
+.song-info {
+  margin-bottom: 15rpx;
+}
+
+.song-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.song-artist {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.song-progress {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.progress-text {
+  font-size: 24rpx;
+  color: #8b8b8b;
+  min-width: 80rpx;
+}
+
+.release-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.release-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #16213e;
+  border-radius: 15rpx;
+}
+
+.release-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.release-title {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.release-date {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.release-status {
+  font-size: 24rpx;
+  color: #533483;
+  padding: 8rpx 16rpx;
+  background-color: #1a1a2e;
+  border-radius: 8rpx;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 30rpx;
+}
+
+.empty-text {
+  display: block;
+  font-size: 28rpx;
+  color: #8b8b8b;
+  margin-bottom: 40rpx;
+}
+

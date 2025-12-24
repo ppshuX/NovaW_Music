@@ -1,0 +1,40 @@
+{
+    "pages": [
+        "pages/dashboard/dashboard",
+        "pages/songs/song-list/song-list",
+        "pages/songs/song-detail/song-detail",
+        "pages/songs/song-edit/song-edit",
+        "pages/practice/practice-log/practice-log",
+        "pages/showcase/showcase"
+    ],
+    "window": {
+        "navigationBarTitleText": "MusicOS·Grigg",
+        "navigationBarBackgroundColor": "#1a1a2e",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#16213e",
+        "backgroundTextStyle": "light"
+    },
+    "tabBar": {
+        "color": "#8b8b8b",
+        "selectedColor": "#0f3460",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/dashboard/dashboard",
+                "text": "仪表盘"
+            },
+            {
+                "pagePath": "pages/songs/song-list/song-list",
+                "text": "歌曲库"
+            },
+            {
+                "pagePath": "pages/showcase/showcase",
+                "text": "作品集"
+            }
+        ]
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json",
+    "lazyCodeLoading": "requiredComponents"
+}

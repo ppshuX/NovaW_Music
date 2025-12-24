@@ -1,0 +1,90 @@
+<!--pages/dashboard/dashboard.wxml-->
+<view class="container">
+  <!-- 今日练习情况 -->
+  <view class="card">
+    <view class="section-title">今日练习</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value">{{todayStats.totalMinutes}}</view>
+        <view class="stat-label">分钟</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{todayStats.songCount}}</view>
+        <view class="stat-label">首歌曲</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{todayStats.logCount}}</view>
+        <view class="stat-label">次练习</view>
+      </view>
+    </view>
+    <button class="btn btn-primary" bindtap="addPracticeLog">记录练习</button>
+  </view>
+
+  <!-- 本周进度 -->
+  <view class="card">
+    <view class="section-title">本周进度</view>
+    <view class="week-stats">
+      <view class="week-stat-item">
+        <text class="week-label">练习时长：</text>
+        <text class="week-value">{{weekStats.totalMinutes}}分钟</text>
+      </view>
+      <view class="week-stat-item">
+        <text class="week-label">练习歌曲：</text>
+        <text class="week-value">{{weekStats.songCount}}首</text>
+      </view>
+      <view class="week-stat-item">
+        <text class="week-label">练习次数：</text>
+        <text class="week-value">{{weekStats.logCount}}次</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 正在练习的歌曲 -->
+  <view class="card" wx:if="{{practicingSongs.length > 0}}">
+    <view class="section-title">
+      <text>正在练习</text>
+      <text class="more-link" bindtap="goToSongList">查看全部 ></text>
+    </view>
+    <view class="song-list">
+      <view 
+        class="song-item" 
+        wx:for="{{practicingSongs}}" 
+        wx:key="song_id"
+        bindtap="goToSongDetail"
+        data-song-id="{{item.song_id}}"
+      >
+        <view class="song-info">
+          <view class="song-title">{{item.title}}</view>
+          <view class="song-artist">{{item.artist}}</view>
+        </view>
+        <view class="song-progress">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progress_percentage}}%"></view>
+          </view>
+          <text class="progress-text">{{item.progress_percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 即将发布 -->
+  <view class="card" wx:if="{{upcomingReleases.length > 0}}">
+    <view class="section-title">即将发布</view>
+    <view class="release-list">
+      <view class="release-item" wx:for="{{upcomingReleases}}" wx:key="song_id">
+        <view class="release-info">
+          <text class="release-title">{{item.title}}</text>
+          <text class="release-date">{{item.releaseDateFormatted}}</text>
+        </view>
+        <text class="release-status">{{item.status}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{practicingSongs.length === 0 && upcomingReleases.length === 0}}">
+    <text class="empty-text">还没有开始练习，快去添加歌曲吧！</text>
+    <button class="btn btn-primary" bindtap="goToSongList">添加歌曲</button>
+  </view>
+</view>
+

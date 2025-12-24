@@ -1,0 +1,104 @@
+<!--pages/showcase/showcase.wxml-->
+<view class="container">
+  <!-- 简介区域 -->
+  <view class="card showcase-header">
+    <view class="showcase-title">音乐作品集</view>
+    <view class="showcase-subtitle">展示我的音乐成长之路</view>
+  </view>
+
+  <!-- 统计信息 -->
+  <view class="card stats-card">
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-value">{{completedSongs.length}}</view>
+        <view class="stat-label">已完成</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{practicingSongs.length}}</view>
+        <view class="stat-label">练习中</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-value">{{originalSongs.length}}</view>
+        <view class="stat-label">原创作品</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已完成作品 -->
+  <view class="card" wx:if="{{completedSongs.length > 0}}">
+    <view class="section-title">已完成作品</view>
+    <view class="showcase-song-list">
+      <view 
+        class="showcase-song-item" 
+        wx:for="{{completedSongs}}" 
+        wx:key="song_id"
+        bindtap="goToSongDetail"
+        data-song-id="{{item.song_id}}"
+      >
+        <view class="song-main">
+          <view class="song-title">{{item.title}}</view>
+          <view class="song-artist">{{item.artist}}</view>
+        </view>
+        <view class="song-meta">
+          <view class="stars">
+            <text class="star {{index <= item.proficiency ? '' : 'empty'}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-item="index">★</text>
+          </view>
+          <text class="song-status completed">已完成</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 正在练习 -->
+  <view class="card" wx:if="{{practicingSongs.length > 0}}">
+    <view class="section-title">正在练习</view>
+    <view class="showcase-song-list">
+      <view 
+        class="showcase-song-item" 
+        wx:for="{{practicingSongs}}" 
+        wx:key="song_id"
+        bindtap="goToSongDetail"
+        data-song-id="{{item.song_id}}"
+      >
+        <view class="song-main">
+          <view class="song-title">{{item.title}}</view>
+          <view class="song-artist">{{item.artist}}</view>
+        </view>
+        <view class="song-meta">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{item.progress_percentage}}%"></view>
+          </view>
+          <text class="progress-text">{{item.progress_percentage}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 原创作品 -->
+  <view class="card" wx:if="{{originalSongs.length > 0}}">
+    <view class="section-title">原创作品</view>
+    <view class="showcase-song-list">
+      <view 
+        class="showcase-song-item" 
+        wx:for="{{originalSongs}}" 
+        wx:key="song_id"
+        bindtap="goToSongDetail"
+        data-song-id="{{item.song_id}}"
+      >
+        <view class="song-main">
+          <view class="song-title">{{item.title}}</view>
+          <view class="song-artist">{{item.artist}}</view>
+        </view>
+        <view class="song-meta">
+          <text class="song-status original">原创</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{publicSongs.length === 0}}">
+    <text class="empty-text">还没有公开的作品</text>
+  </view>
+</view>
+

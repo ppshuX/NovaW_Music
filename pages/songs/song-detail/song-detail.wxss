@@ -1,0 +1,203 @@
+/* pages/songs/song-detail/song-detail.wxss */
+.song-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30rpx;
+}
+
+.song-title-section {
+  flex: 1;
+}
+
+.song-title {
+  font-size: 42rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.song-artist {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}
+
+.song-status-badge {
+  padding: 10rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.progress-section {
+  margin-bottom: 30rpx;
+}
+
+.progress-label {
+  font-size: 28rpx;
+  margin-bottom: 15rpx;
+  color: #8b8b8b;
+}
+
+.progress-text {
+  font-size: 24rpx;
+  color: #8b8b8b;
+  margin-top: 10rpx;
+  display: block;
+}
+
+.proficiency-section {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.section-label {
+  font-size: 28rpx;
+  color: #8b8b8b;
+}
+
+.info-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.info-label {
+  font-size: 26rpx;
+  color: #8b8b8b;
+}
+
+.info-value {
+  font-size: 26rpx;
+  color: #eaeaea;
+}
+
+.tags-section {
+  margin-top: 20rpx;
+}
+
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.section-item {
+  padding: 30rpx;
+  background-color: #16213e;
+  border-radius: 15rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2rpx solid transparent;
+}
+
+.section-item.mastered {
+  border-color: #00d4aa;
+  background-color: rgba(0, 212, 170, 0.1);
+}
+
+.section-name {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.section-status {
+  font-size: 36rpx;
+  color: #8b8b8b;
+}
+
+.section-item.mastered .section-status {
+  color: #00d4aa;
+}
+
+.technical-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+}
+
+.tech-point {
+  padding: 12rpx 20rpx;
+  background-color: #16213e;
+  border-radius: 20rpx;
+  font-size: 26rpx;
+  color: #eaeaea;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 15rpx;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  background-color: #16213e;
+  color: #8b8b8b;
+  border: 1px solid #0f3460;
+}
+
+.status-btn.active {
+  background-color: #0f3460;
+  color: #ffffff;
+}
+
+.practice-logs {
+  margin-bottom: 20rpx;
+}
+
+.log-item {
+  padding: 20rpx;
+  background-color: #16213e;
+  border-radius: 10rpx;
+  margin-bottom: 15rpx;
+}
+
+.log-date {
+  font-size: 26rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.log-duration {
+  font-size: 24rpx;
+  color: #0f3460;
+  margin-bottom: 8rpx;
+}
+
+.log-notes {
+  font-size: 24rpx;
+  color: #8b8b8b;
+}
+
+.empty-logs {
+  text-align: center;
+  padding: 40rpx;
+  color: #8b8b8b;
+  font-size: 26rpx;
+}
+
+.notes-content {
+  font-size: 28rpx;
+  line-height: 1.8;
+  color: #eaeaea;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 30rpx;
+  padding-bottom: 40rpx;
+}
+
+.action-buttons .btn {
+  flex: 1;
+}
+

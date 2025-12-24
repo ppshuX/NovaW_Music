@@ -1,0 +1,112 @@
+/* pages/songs/song-edit/song-edit.wxss */
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.form-item:last-child {
+  margin-bottom: 0;
+}
+
+.form-label {
+  font-size: 28rpx;
+  margin-bottom: 15rpx;
+  color: #8b8b8b;
+}
+
+.form-hint {
+  font-size: 24rpx;
+  color: #8b8b8b;
+  margin-left: 15rpx;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 200rpx;
+  background-color: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 10rpx;
+  padding: 20rpx;
+  color: #eaeaea;
+  font-size: 28rpx;
+}
+
+.picker {
+  padding: 20rpx;
+  background-color: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 10rpx;
+  color: #eaeaea;
+  font-size: 28rpx;
+}
+
+.tag-input-group {
+  display: flex;
+  gap: 15rpx;
+  margin-bottom: 20rpx;
+}
+
+.tag-input {
+  flex: 1;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15rpx;
+}
+
+.tag {
+  position: relative;
+  padding-right: 30rpx;
+}
+
+.tag-remove {
+  position: absolute;
+  right: 8rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32rpx;
+  color: #ff6b6b;
+  cursor: pointer;
+}
+
+.sections-edit {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.section-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+  padding: 20rpx;
+  background-color: #16213e;
+  border: 2rpx solid #0f3460;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+}
+
+.section-checkbox.checked {
+  border-color: #00d4aa;
+  background-color: rgba(0, 212, 170, 0.1);
+}
+
+.checkbox-icon {
+  font-size: 36rpx;
+  color: #8b8b8b;
+}
+
+.section-checkbox.checked .checkbox-icon {
+  color: #00d4aa;
+}
+
+.action-buttons {
+  margin-top: 30rpx;
+  padding-bottom: 40rpx;
+}
+
+.action-buttons .btn {
+  width: 100%;
+}
+

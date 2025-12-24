@@ -1,0 +1,98 @@
+/* pages/showcase/showcase.wxss */
+.showcase-header {
+  text-align: center;
+  background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
+}
+
+.showcase-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-bottom: 15rpx;
+}
+
+.showcase-subtitle {
+  font-size: 28rpx;
+  color: rgba(234, 234, 234, 0.8);
+}
+
+.stats-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 52rpx;
+  font-weight: bold;
+  color: #0f3460;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: #8b8b8b;
+}
+
+.showcase-song-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.showcase-song-item {
+  padding: 25rpx;
+  background-color: #16213e;
+  border-radius: 15rpx;
+  border-left: 4rpx solid #0f3460;
+}
+
+.song-main {
+  margin-bottom: 15rpx;
+}
+
+.song-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.song-artist {
+  font-size: 26rpx;
+  color: #8b8b8b;
+}
+
+.song-meta {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.song-status {
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}
+
+.song-status.completed {
+  background-color: rgba(0, 212, 170, 0.2);
+  color: #00d4aa;
+}
+
+.song-status.original {
+  background-color: rgba(83, 52, 131, 0.2);
+  color: #533483;
+}
+
+.progress-text {
+  font-size: 24rpx;
+  color: #8b8b8b;
+  min-width: 80rpx;
+}
+

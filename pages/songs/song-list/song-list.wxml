@@ -1,0 +1,130 @@
+<!--pages/songs/song-list/song-list.wxml-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input 
+      class="search-input" 
+      placeholder="搜索歌曲、艺术家或标签..."
+      value="{{searchKeyword}}"
+      bindinput="onSearchInput"
+    />
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-tabs">
+    <view 
+      class="filter-tab {{filterStatus === 'all' ? 'active' : ''}}"
+      data-status="all"
+      bindtap="onFilterChange"
+    >
+      全部
+    </view>
+    <view 
+      class="filter-tab {{filterStatus === '未开始' ? 'active' : ''}}"
+      data-status="未开始"
+      bindtap="onFilterChange"
+    >
+      未开始
+    </view>
+    <view 
+      class="filter-tab {{filterStatus === '练习中' ? 'active' : ''}}"
+      data-status="练习中"
+      bindtap="onFilterChange"
+    >
+      练习中
+    </view>
+    <view 
+      class="filter-tab {{filterStatus === '可录制' ? 'active' : ''}}"
+      data-status="可录制"
+      bindtap="onFilterChange"
+    >
+      可录制
+    </view>
+    <view 
+      class="filter-tab {{filterStatus === '已完成' ? 'active' : ''}}"
+      data-status="已完成"
+      bindtap="onFilterChange"
+    >
+      已完成
+    </view>
+  </view>
+
+  <!-- 歌曲列表 -->
+  <view class="song-list">
+    <view 
+      class="song-card" 
+      wx:for="{{filteredSongs}}" 
+      wx:key="song_id"
+      bindtap="goToDetail"
+      data-song-id="{{item.song_id}}"
+    >
+      <view class="song-header">
+        <view class="song-main-info">
+          <view class="song-title">{{item.title}}</view>
+          <view class="song-artist">{{item.artist}}</view>
+        </view>
+        <view class="song-status" style="background-color: {{item.status === '未开始' ? '#8b8b8b' : item.status === '练习中' ? '#0f3460' : item.status === '可录制' ? '#533483' : '#00d4aa'}}">
+          {{item.status}}
+        </view>
+      </view>
+      
+      <view class="song-meta">
+        <view class="meta-item" wx:if="{{item.key}}">
+          <text class="meta-label">调性：</text>
+          <text class="meta-value">{{item.key}}</text>
+        </view>
+        <view class="meta-item" wx:if="{{item.capo > 0}}">
+          <text class="meta-label">变调夹：</text>
+          <text class="meta-value">{{item.capo}}品</text>
+        </view>
+        <view class="meta-item">
+          <text class="meta-label">熟练度：</text>
+          <view class="stars">
+            <text class="star {{index <= item.proficiency ? '' : 'empty'}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-item="index">★</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="song-progress-section">
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{item.progress_percentage}}%"></view>
+        </view>
+        <text class="progress-text">{{item.progress_percentage}}%</text>
+      </view>
+
+      <view class="song-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+        <text class="tag" wx:for="{{item.tags}}" wx:key="*this">{{item}}</text>
+      </view>
+
+      <view class="song-actions">
+        <button 
+          class="action-btn" 
+          size="mini"
+          bindtap="editSong"
+          data-song-id="{{item.song_id}}"
+        >
+          编辑
+        </button>
+        <button 
+          class="action-btn delete-btn" 
+          size="mini"
+          bindtap="deleteSong"
+          data-song-id="{{item.song_id}}"
+        >
+          删除
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{filteredSongs.length === 0}}">
+    <text class="empty-text">还没有歌曲，快去添加吧！</text>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="fab" bindtap="addSong">
+    <text class="fab-icon">+</text>
+  </view>
+</view>
+
