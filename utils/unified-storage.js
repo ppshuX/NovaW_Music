@@ -84,7 +84,8 @@ export async function saveSongs(songs) {
  */
 export async function getSongById(songId) {
   const songs = await getSongs()
-  return songs.find(song => song.song_id === songId) || null
+  // 支持通过 song_id 或 _id 查找
+  return songs.find(song => song.song_id === songId || song._id === songId) || null
 }
 
 /**
@@ -102,6 +103,29 @@ export async function addSong(song) {
  * 更新歌曲
  */
 export async function updateSong(songId, updates) {
+  // 获取当前歌曲信息，用于判断是否需要自动更新状态
+  const currentSong = await getSongById(songId)
+  
+  // 如果更新了进度或段落，检查是否需要自动更新状态
+  if (currentSong && (updates.progress_percentage !== undefined || updates.sections !== undefined)) {
+    // 计算新进度
+    const newSections = updates.sections || currentSong.sections
+    const newProgress = updates.progress_percentage !== undefined 
+      ? updates.progress_percentage 
+      : calculateProgress({ ...currentSong, sections: newSections })
+    
+    // 如果进度达到100%且当前状态是"练习中"，自动改为"可录制"
+    if (newProgress >= 100 && currentSong.status === '练习中') {
+      updates.status = '可录制'
+      // 提示用户
+      wx.showToast({
+        title: '练习完成！已自动移至"可录制"',
+        icon: 'success',
+        duration: 2000
+      })
+    }
+  }
+  
   if (USE_CLOUD) {
     return await cloudStorage.updateSongInCloud(songId, updates)
   } else {

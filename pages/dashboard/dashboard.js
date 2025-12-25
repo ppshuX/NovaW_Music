@@ -1,19 +1,12 @@
 // pages/dashboard/dashboard.js
-import { getTodayPracticeStats, getWeekPracticeStats, getPracticingSongs, getSongs, isOwner } from '../../utils/unified-storage.js'
-import { formatDuration, formatDate } from '../../utils/util.js'
+import { getPracticingSongs, getSongs, isOwner } from '../../utils/unified-storage.js'
+import { formatDate } from '../../utils/util.js'
 
 Page({
     data: {
-        todayStats: {
-            totalMinutes: 0,
-            songCount: 0,
-            logCount: 0
-        },
-        weekStats: {
-            totalMinutes: 0,
-            songCount: 0,
-            logCount: 0
-        },
+        totalSongs: 0,
+        practicingCount: 0,
+        completedCount: 0,
         practicingSongs: [],
         upcomingReleases: [],
         isOwner: false
@@ -33,21 +26,21 @@ Page({
     },
 
     async loadDashboardData() {
-        // 加载今日统计
-        const todayStats = await getTodayPracticeStats()
-
-        // 加载本周统计
-        const weekStats = await getWeekPracticeStats()
+        // 获取所有歌曲用于统计
+        const allSongs = await getSongs()
+        const practicingCount = allSongs.filter(s => s.status === '练习中').length
+        const completedCount = allSongs.filter(s => s.status === '已完成' || s.status === '可录制').length
 
         // 加载正在练习的歌曲
         const practicingSongs = await getPracticingSongs(3)
 
-        // 加载即将发布的作品（这里简化处理，实际可以从歌曲中筛选）
+        // 加载即将发布的作品
         const upcomingReleases = await this.getUpcomingReleases()
 
         this.setData({
-            todayStats,
-            weekStats,
+            totalSongs: allSongs.length,
+            practicingCount,
+            completedCount,
             practicingSongs,
             upcomingReleases
         })
@@ -87,24 +80,10 @@ Page({
         })
     },
 
-    // 添加练习记录
-    addPracticeLog() {
-        wx.navigateTo({
-            url: '/pages/practice/practice-log/practice-log'
-        })
-    },
-
     // 导入歌曲
     importSongs() {
         wx.navigateTo({
             url: '/pages/settings/data-import/data-import'
-        })
-    },
-
-    // 查看练习记录
-    viewPracticeLogs() {
-        wx.navigateTo({
-            url: '/pages/practice/practice-log/practice-log?viewMode=all'
         })
     }
 })

@@ -169,10 +169,22 @@ export function updateSongInCloud(songId, updates) {
             ...updates,
             updated_at: new Date()
           }
+        }).then(() => {
+          // 返回更新后的文档
+          return db.collection('songs').doc(docId).get()
         })
       })
-      .then(() => {
-        resolve(true)
+      .then(res => {
+        if (res.data) {
+          const { _id, _openid, ...songData } = res.data
+          resolve({
+            ...songData,
+            song_id: songData.song_id || _id,
+            _id: _id
+          })
+        } else {
+          resolve(true)
+        }
       })
       .catch(reject)
   })
@@ -587,3 +599,4 @@ export function getCloudFilesTempURL(fileIDs) {
     })
   })
 }
+

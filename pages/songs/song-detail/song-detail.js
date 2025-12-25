@@ -1,12 +1,11 @@
 // pages/songs/song-detail/song-detail.js
-import { getSongById, getPracticeLogs, updateSong, isOwner } from '../../../utils/unified-storage.js'
+import { getSongById, updateSong, isOwner } from '../../../utils/unified-storage.js'
 import { formatDate, formatDuration, getStatusColor, showToast, showLoading, hideLoading } from '../../../utils/util.js'
 import { chooseAndUploadVideo, chooseAndUploadImage, deleteFile, previewImage, playVideo } from '../../../utils/file-upload.js'
 
 Page({
   data: {
     song: null,
-    practiceLogs: [],
     showEditMenu: false,
     readonly: false  // 只读模式（访客模式）
   },
@@ -42,12 +41,6 @@ Page({
       return
     }
 
-    // 加载练习记录
-    const allLogs = await getPracticeLogs(songId)
-    const practiceLogs = allLogs
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 10) // 只显示最近10条
-
     // 计算进度（如果还没有）
     if (!song.progress_percentage && song.sections) {
       const { calculateProgress } = require('../../../utils/unified-storage.js')
@@ -55,8 +48,7 @@ Page({
     }
 
     this.setData({
-      song,
-      practiceLogs
+      song
     })
   },
 
@@ -68,12 +60,6 @@ Page({
     })
   },
 
-  // 添加练习记录
-  addPracticeLog() {
-    wx.navigateTo({
-      url: `/pages/practice/practice-log/practice-log?songId=${this.data.song.song_id}`
-    })
-  },
 
   // 切换段落掌握状态（实时保存）
   async toggleSection(e) {
@@ -93,13 +79,22 @@ Page({
     
     // 实时保存
     try {
-      await updateSong(song.song_id || song._id, { sections, progress_percentage: progress })
-      // 更新本地数据，无需重新加载
-      this.setData({
+      const updatedSong = await updateSong(song.song_id || song._id, { sections, progress_percentage: progress })
+      // 更新本地数据
+      const updateData = {
         'song.sections': sections,
         'song.progress_percentage': progress
-      })
-      showToast('已保存', 'success', 1000)
+      }
+      // 如果状态被自动更新了（进度达到100%），也要更新本地显示
+      if (updatedSong && updatedSong.status && updatedSong.status !== song.status) {
+        updateData['song.status'] = updatedSong.status
+      }
+      this.setData(updateData)
+      
+      // 如果进度未达到100%，显示保存提示（达到100%时updateSong会显示完成提示）
+      if (progress < 100) {
+        showToast('已保存', 'success', 1000)
+      }
     } catch (err) {
       showToast('保存失败', 'none')
     }
@@ -149,13 +144,6 @@ Page({
     }
   },
 
-  // 查看所有练习记录
-  viewAllLogs() {
-    const songId = this.data.song.song_id || this.data.song._id
-    wx.navigateTo({
-      url: `/pages/practice/practice-log/practice-log?songId=${songId}&viewMode=all`
-    })
-  },
 
   // 上传演示视频
   async uploadVideo() {
